@@ -35,7 +35,7 @@ project:
   output-dir: webroot
 
 website:
-  title: "next.watanabe3ti.com"
+  title: next.watanabe3ti.com
   navbar:
     aria-label: Main navigation
     background: dark
@@ -55,8 +55,8 @@ website:
             text: Blogs
           - href: log.qmd
             text: LOG
-          - href: github.qmd
-            text: Github 
+          - href: github-note.qmd
+            text: Github-note
       - text: Contents
         menu:
           - href: about.qmd
@@ -69,26 +69,16 @@ website:
             text: Note3
           - href: quarto.qmd
             text: Quarto
-      - href: siteview.qmd
-        text: Siteview
+      - text: Siteview
+        href: siteview.qmd
     right:
-      - icon: rss
-        href: https://watanabe3tipapa.github.io/next/index.xml
       - icon: github
-        href: https://github.com/watanabe3tipapa
-      - icon: twitter
-        href: https://twitter.com/watanabe3tipapa
-      - icon: instagram
-        href: https://www.instagram.com/chombo_watanabe3tipapa/
-      - text: "☀️ / 🌙"
-        href: "#"
-        attributes: {id: "quarto-light-dark-toggle", onclick: "window.quartoToggleColorScheme(); return false;"}
-        
-  page-footer: 
-    aria-label: Site footer
+        href: https://github.com/watanabe3tipapa/next
+        text: GitHub
+  page-footer:
     background: dark
-    left: "Copyright 2024, watanabe3tipapa" 
-    right: 
+    left: Copyright 2024, watanabe3tipapa
+    right:
       - icon: github
         href: https://github.com/watanabe3tipapa
 
@@ -96,18 +86,22 @@ website:
 
 format:
   html:
-    theme: 
-      light: [flatly, custom.scss]
-      dark: [darkly, custom.scss]
-    css: [styles.css, custom-responsive.css]
+    theme:
+      light:
+        - flatly
+        - custom.scss
+      dark:
+        - darkly
+        - custom.scss
+    css:
+      - styles.css
+      - custom-responsive.css
     toc: true
     toc-location: left
     code-fold: true
-    code-tools: true
-    code-copy: true
     highlight-style: github
-    mainfont: "Noto Sans JP"
-    monofont: "Fira Code"
+    mainfont: Noto Sans JP
+    monofont: Fira Code
     html-math-method: katex
 
 lang: ja-JP
