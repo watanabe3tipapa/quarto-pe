@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "My Quarto Project",
+    "section": "",
+    "text": "1 Welcome to My Quarto Project\nこのウェブサイトは quarto を使用して作成しています\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\nand\nThis site contains a yaml template\n\nThis page will be updated as needed.\n\n\n===\n^C"
+  },
+  {
+    "objectID": "content2.html",
+    "href": "content2.html",
+    "title": "Content2",
+    "section": "",
+    "text": "1 My Quarto Project\nYAMLの事例（next.watanabe3ti.com）\n\nproject:\n  type: website\n  output-dir: webroot\n\nwebsite:\n  title: \"next.watanabe3ti.com\"\n  navbar:\n    aria-label: Main navigation\n    background: dark\n    search: true\n    left:\n      - href: index.qmd\n        text: Home\n      - text: SubDomain\n        menu:\n          - href: main.qmd\n            text: Main\n          - href: toolsmith.qmd\n            text: Toolsmith\n          - href: wiki.qmd\n            text: Wiki\n          - href: blogs.qmd\n            text: Blogs\n          - href: log.qmd\n            text: LOG\n          - href: github.qmd\n            text: Github \n      - text: Contents\n        menu:\n          - href: about.qmd\n            text: About\n          - href: note1.qmd\n            text: Note1\n          - href: note2.qmd\n            text: Note2\n          - href: note3.qmd\n            text: Note3\n          - href: quarto.qmd\n            text: Quarto\n      - href: siteview.qmd\n        text: Siteview\n    right:\n      - icon: rss\n        href: https://watanabe3tipapa.github.io/next/index.xml\n      - icon: github\n        href: https://github.com/watanabe3tipapa\n      - icon: twitter\n        href: https://twitter.com/watanabe3tipapa\n      - icon: instagram\n        href: https://www.instagram.com/chombo_watanabe3tipapa/\n      - text: \"☀️ / 🌙\"\n        href: \"#\"\n        attributes: {id: \"quarto-light-dark-toggle\", onclick: \"window.quartoToggleColorScheme(); return false;\"}\n        \n  page-footer: \n    aria-label: Site footer\n    background: dark\n    left: \"Copyright 2024, watanabe3tipapa\" \n    right: \n      - icon: github\n        href: https://github.com/watanabe3tipapa\n\n  open-graph: true\n\nformat:\n  html:\n    theme: \n      light: [flatly, custom.scss]\n      dark: [darkly, custom.scss]\n    css: [styles.css, custom-responsive.css]\n    toc: true\n    toc-location: left\n    code-fold: true\n    code-tools: true\n    code-copy: true\n    highlight-style: github\n    mainfont: \"Noto Sans JP\"\n    monofont: \"Fira Code\"\n    html-math-method: katex\n\nlang: ja-JP\n\n===\n^C"
+  },
+  {
+    "objectID": "content1.html",
+    "href": "content1.html",
+    "title": "Content1",
+    "section": "",
+    "text": "1 My Quarto Project\nこのウェブサイトで使用しているYAML\n\n\n1.0.1 YAML in building this website\nproject:\n  type: website\n  output-dir: _docs\n  render:\n    - \"*.qmd\"\n    - \"!drafts/\"\n\nwebsite:\n  title: \"quarto-pe\"\n  navbar:\n    aria-label: Main navigation\n    background: dark\n    search: true\n    left:\n      - href: index.qmd\n        text: Home\n      - text: Contents\n        menu:\n          - href: content1.html\n            text: Content1\n          - href: content2.html\n            text: Content2\n          - href: content3.html\n            text: Content3\n\nformat:\n  html:\n    theme: cosmo\n    css: styles.css\n    toc: true\n    code-fold: true\n    code-tools: true\n  pdf:\n    documentclass: article\n    margin-left: 30mm\n    margin-right: 30mm\n\nexecute:\n  echo: true\n  warning: false\n  error: false\n  cache: true\n\nfreeze: auto\n\nresources:\n  - CNAME\n  - .nojekyll\n\neditor: visual\n\ncode 出力\nPDF出力（このページはサイズ（A4）に対応しています）\n以上をお試しください。\n\nYAML に { editor: visual }を追記するといわゆるビジュアル・モードで編集できるようになります。\n\n\n\n編集画面\n\n\n\n^C"
+  },
+  {
+    "objectID": "content3.html",
+    "href": "content3.html",
+    "title": "Content3",
+    "section": "",
+    "text": "1 My Quarto Project\nテンプレート集\n\n\n\n\n工事中"
+  }
+]

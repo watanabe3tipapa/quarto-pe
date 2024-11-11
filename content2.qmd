@@ -1,0 +1,120 @@
+---
+title: "Content2"
+subtitle: "An Example of Best Practices"
+author: "watanabe3tipapa"
+date: last-modified
+description: |
+  This is the main page of my Quarto project, 
+  demonstrating best practices in YAML configuration.
+  Content2
+lang: jp
+toc: true
+number-sections: true
+highlight-style: github
+code-fold: show
+execute:
+  echo: false
+  warning: false
+format:
+  html:
+    css: custom-styles.css
+  pdf:
+    documentclass: article
+    papersize: a4
+---
+
+# My Quarto Project
+
+YAMLの事例（next.watanabe3ti.com）
+
+------------------------------------------------------------------------
+
+``` yaml
+project:
+  type: website
+  output-dir: webroot
+
+website:
+  title: "next.watanabe3ti.com"
+  navbar:
+    aria-label: Main navigation
+    background: dark
+    search: true
+    left:
+      - href: index.qmd
+        text: Home
+      - text: SubDomain
+        menu:
+          - href: main.qmd
+            text: Main
+          - href: toolsmith.qmd
+            text: Toolsmith
+          - href: wiki.qmd
+            text: Wiki
+          - href: blogs.qmd
+            text: Blogs
+          - href: log.qmd
+            text: LOG
+          - href: github.qmd
+            text: Github 
+      - text: Contents
+        menu:
+          - href: about.qmd
+            text: About
+          - href: note1.qmd
+            text: Note1
+          - href: note2.qmd
+            text: Note2
+          - href: note3.qmd
+            text: Note3
+          - href: quarto.qmd
+            text: Quarto
+      - href: siteview.qmd
+        text: Siteview
+    right:
+      - icon: rss
+        href: https://watanabe3tipapa.github.io/next/index.xml
+      - icon: github
+        href: https://github.com/watanabe3tipapa
+      - icon: twitter
+        href: https://twitter.com/watanabe3tipapa
+      - icon: instagram
+        href: https://www.instagram.com/chombo_watanabe3tipapa/
+      - text: "☀️ / 🌙"
+        href: "#"
+        attributes: {id: "quarto-light-dark-toggle", onclick: "window.quartoToggleColorScheme(); return false;"}
+        
+  page-footer: 
+    aria-label: Site footer
+    background: dark
+    left: "Copyright 2024, watanabe3tipapa" 
+    right: 
+      - icon: github
+        href: https://github.com/watanabe3tipapa
+
+  open-graph: true
+
+format:
+  html:
+    theme: 
+      light: [flatly, custom.scss]
+      dark: [darkly, custom.scss]
+    css: [styles.css, custom-responsive.css]
+    toc: true
+    toc-location: left
+    code-fold: true
+    code-tools: true
+    code-copy: true
+    highlight-style: github
+    mainfont: "Noto Sans JP"
+    monofont: "Fira Code"
+    html-math-method: katex
+
+lang: ja-JP
+```
+
+------------------------------------------------------------------------
+
+===
+
+\^C
