@@ -1,5 +1,5 @@
 ---
-title: "Quarto & qmd Notation"
+title: "Quarto & Q markdown Notations"
 subtitle: "My Best Practices"
 author: "watanabe3tipapa"
 date: last-modified
@@ -22,15 +22,17 @@ format:
     papersize: a4
 ---
 
-# Welcome to My Quarto Project
+# Quarto & Q markdown Notations
 
-このウェブサイトは quarto を使用して作成しています
+\![UC\](./assets/UC900.jpg)
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+## Quarto
 
-and
+**UC**
 
-**This site contains a yaml template**
+## Q markdown Notations
+
+**UC**
 
 > This page will be updated as needed.
 

@@ -2,9 +2,23 @@
   {
     "objectID": "notation.html",
     "href": "notation.html",
-    "title": "Quarto & qmd Notation",
+    "title": "Quarto & Q markdown Notations",
     "section": "",
-    "text": "1 Welcome to My Quarto Project\nこのウェブサイトは quarto を使用して作成しています\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\nand\nThis site contains a yaml template\n\nThis page will be updated as needed.\n\n\n==="
+    "text": "![UC](./assets/UC900.jpg)\n\n\nUC\n\n\n\nUC\n\nThis page will be updated as needed.\n\n\n==="
+  },
+  {
+    "objectID": "notation.html#quarto",
+    "href": "notation.html#quarto",
+    "title": "Quarto & Q markdown Notations",
+    "section": "",
+    "text": "UC"
+  },
+  {
+    "objectID": "notation.html#q-markdown-notations",
+    "href": "notation.html#q-markdown-notations",
+    "title": "Quarto & Q markdown Notations",
+    "section": "",
+    "text": "UC\n\nThis page will be updated as needed.\n\n\n==="
   },
   {
     "objectID": "content5.html",
