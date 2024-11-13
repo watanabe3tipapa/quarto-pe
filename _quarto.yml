@@ -1,0 +1,56 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - "*.qmd"
+    - "!drafts/"
+
+website:
+  title: "quarto-pe"
+  navbar:
+    aria-label: Main navigation
+    background: dark
+    search: true
+    left:
+      - href: index.qmd
+        text: Home
+      - text: Contents
+        menu:
+          - href: content1.html
+            text: Content1
+          - href: content2.html
+            text: Content2
+          - href: content3.html
+            text: Content3
+          - href: content4.html
+            text: Content4
+          - href: content5.html
+            text: Content5  
+      - href: notation.qmd 
+        text: Notation
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    code-fold: true
+    code-tools: true
+  pdf:
+    documentclass: article
+    margin-left: 30mm
+    margin-right: 30mm
+
+execute:
+  echo: true
+  warning: false
+  error: false
+  cache: true
+
+freeze: auto
+
+resources:
+  - CNAME
+  - .nojekyll
+
+editor: visual

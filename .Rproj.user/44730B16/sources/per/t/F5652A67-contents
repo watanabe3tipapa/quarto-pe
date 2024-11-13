@@ -1,0 +1,32 @@
+project:
+  type: website
+  output-dir: _docs
+  render:
+    - "*.qmd"
+    - "!drafts/"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    code-fold: true
+    code-tools: true
+  pdf:
+    documentclass: article
+    margin-left: 30mm
+    margin-right: 30mm
+
+execute:
+  echo: true
+  warning: false
+  error: false
+  cache: true
+
+freeze: auto
+
+resources:
+  - CNAME
+  - .nojekyll
+
+editor: visual

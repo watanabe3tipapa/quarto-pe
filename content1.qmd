@@ -1,0 +1,103 @@
+---
+title: "Content1"
+subtitle: "An Example of Best Practices"
+author: "watanabe3tipapa"
+date: last-modified
+description: |
+  This is the main page of my Quarto project, 
+  demonstrating best practices in YAML configuration.
+  Content1
+lang: jp
+toc: true
+number-sections: true
+highlight-style: github
+code-fold: show
+execute:
+  echo: false
+  warning: false
+format:
+  html:
+    css: custom-styles.css
+  pdf:
+    documentclass: article
+    papersize: a4
+---
+
+# My Quarto Project
+
+このウェブサイトで使用しているYAML
+
+------------------------------------------------------------------------
+
+### YAML in building this website
+
+``` yaml
+project:
+  type: website
+  output-dir: _docs
+  render:
+    - "*.qmd"
+    - "!drafts/"
+
+website:
+  title: "quarto-pe"
+  navbar:
+    aria-label: Main navigation
+    background: dark
+    search: true
+    left:
+      - href: index.qmd
+        text: Home
+      - text: Contents
+        menu:
+          - href: content1.html
+            text: Content1
+          - href: content2.html
+            text: Content2
+          - href: content3.html
+            text: Content3
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    code-fold: true
+    code-tools: true
+  pdf:
+    documentclass: article
+    margin-left: 30mm
+    margin-right: 30mm
+
+execute:
+  echo: true
+  warning: false
+  error: false
+  cache: true
+
+freeze: auto
+
+resources:
+  - CNAME
+  - .nojekyll
+
+editor: visual
+```
+
+------------------------------------------------------------------------
+
+**code 出力**
+
+**PDF出力（**このページはサイズ（A4）に対応しています**）**
+
+以上をお試しください。
+
+------------------------------------------------------------------------
+
+**YAML に** { `editor: visual` }**を追記するといわゆるビジュアル・モードで編集できるようになります。**
+
+![編集画面](assets/editing_screen.jpg){fig-alt="編集画面" fig-align="center"}
+
+------------------------------------------------------------------------
+
+===

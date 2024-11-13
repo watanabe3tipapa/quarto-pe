@@ -1,0 +1,39 @@
+---
+title: "Quarto & qmd Notation"
+subtitle: "My Best Practices"
+author: "watanabe3tipapa"
+date: last-modified
+description: |
+  Best practices for YAML configuration and qmarkdown front matter.
+  Review markdown notation as well.
+lang: jp
+toc: true
+number-sections: true
+highlight-style: github
+code-fold: show
+execute:
+  echo: false
+  warning: false
+format:
+  html:
+    css: custom-styles.css
+  pdf:
+    documentclass: article
+    papersize: a4
+---
+
+# Welcome to My Quarto Project
+
+このウェブサイトは quarto を使用して作成しています
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+
+and
+
+**This site contains a yaml template**
+
+> This page will be updated as needed.
+
+------------------------------------------------------------------------
+
+===

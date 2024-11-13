@@ -1,0 +1,32 @@
+---
+title: "Content4"
+subtitle: "An Example of Best Practices"
+author: "watanabe3tipapa"
+date: last-modified
+description: |
+  This is the main page of my Quarto project, 
+  demonstrating best practices in YAML configuration.
+  Content3
+lang: jp
+toc: true
+number-sections: true
+highlight-style: github
+code-fold: show
+execute:
+  echo: false
+  warning: false
+format:
+  html:
+    css: custom-styles.css
+  pdf:
+    documentclass: article
+    papersize: a4
+---
+
+# My Quarto Project
+
+テンプレート集
+
+------------------------------------------------------------------------
+
+![工事中](assets/UC900.jpg){fig-alt="随時掲載していきます" fig-align="center"}
