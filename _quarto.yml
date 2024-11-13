@@ -28,6 +28,10 @@ website:
             text: Content5  
       - href: notation.qmd 
         text: Notation
+    right:
+      - href: "https://github.com/watanabe3tipapa/quarto-pe"
+        text: Gihub
+        icon: github
 
 format:
   html:
