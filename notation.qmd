@@ -24,8 +24,6 @@ format:
 
 # Quarto & Q markdown Notations
 
-\![UC\](./assets/UC900.jpg)
-
 ## Quarto
 
 **UC**
