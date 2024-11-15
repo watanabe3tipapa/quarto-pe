@@ -22,6 +22,9 @@ website:
             text: Content2
           - href: content3.html
             text: Content3
+    right:
+      - href: siginin.html
+        text: Sign in
 
 format:
   html:

@@ -26,5 +26,12 @@
     "title": "Content3",
     "section": "",
     "text": "1 My Quarto Project\nテンプレート集\n\n\n\n\n工事中"
+  },
+  {
+    "objectID": "siginin.html",
+    "href": "siginin.html",
+    "title": "My Quarto Project",
+    "section": "",
+    "text": "1 Sign in\nこのウェブサイトは quarto を使用して作成しています\n\nユーザー名: \nパスワード: \n\nサインイン\n\n\n\nThis page will be updated as needed.\n\n\n===\n^UC"
   }
 ]
