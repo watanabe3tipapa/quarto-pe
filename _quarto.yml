@@ -14,7 +14,7 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - text: Contents
+      - text: Contents（qmd）
         menu:
           - href: content1.html
             text: Content1
@@ -35,7 +35,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: spacelab
     css: styles.css
     toc: true
     code-fold: true
