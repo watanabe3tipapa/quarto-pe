@@ -28,7 +28,7 @@ format:
 
 **UC**
 
-## Q markdown Notations
+## Q markdown Notation
 
 **UC**
 

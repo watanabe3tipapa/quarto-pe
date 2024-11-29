@@ -14,8 +14,8 @@
     "text": "UC"
   },
   {
-    "objectID": "notation.html#q-markdown-notations",
-    "href": "notation.html#q-markdown-notations",
+    "objectID": "notation.html#q-markdown-notation",
+    "href": "notation.html#q-markdown-notation",
     "title": "Quarto & Q markdown Notations",
     "section": "",
     "text": "UC\n\nThis page will be updated as needed.\n\n\n==="
@@ -25,21 +25,21 @@
     "href": "content5.html",
     "title": "Content5",
     "section": "",
-    "text": "1 My Quarto Project\nテンプレート集\n\n\n\n\n工事中"
+    "text": "1 My Quarto Project\n\n1.0.1 テンプレート集\n\n\n\n\n工事中"
   },
   {
     "objectID": "content3.html",
     "href": "content3.html",
     "title": "Content3",
     "section": "",
-    "text": "1 My Quarto Project\nテンプレート集\n\n\n\n\n工事中"
+    "text": "1 My Quarto Project\n\n1.0.1 テンプレート集\n\n\n\n\n工事中"
   },
   {
     "objectID": "content1.html",
     "href": "content1.html",
     "title": "Content1",
     "section": "",
-    "text": "1 My Quarto Project\nこのウェブサイトで使用しているYAML\n\n\n1.0.1 YAML in building this website\nproject:\n  type: website\n  output-dir: _docs\n  render:\n    - \"*.qmd\"\n    - \"!drafts/\"\n\nwebsite:\n  title: \"quarto-pe\"\n  navbar:\n    aria-label: Main navigation\n    background: dark\n    search: true\n    left:\n      - href: index.qmd\n        text: Home\n      - text: Contents\n        menu:\n          - href: content1.html\n            text: Content1\n          - href: content2.html\n            text: Content2\n          - href: content3.html\n            text: Content3\n\nformat:\n  html:\n    theme: cosmo\n    css: styles.css\n    toc: true\n    code-fold: true\n    code-tools: true\n  pdf:\n    documentclass: article\n    margin-left: 30mm\n    margin-right: 30mm\n\nexecute:\n  echo: true\n  warning: false\n  error: false\n  cache: true\n\nfreeze: auto\n\nresources:\n  - CNAME\n  - .nojekyll\n\neditor: visual\n\ncode 出力\nPDF出力（このページはサイズ（A4）に対応しています）\n以上をお試しください。\n\nYAML に { editor: visual }を追記するといわゆるビジュアル・モードで編集できるようになります。\n\n\n\n編集画面\n\n\n\n==="
+    "text": "1 My Quarto Project\n\n\n\n\n\n\n基本のキ\n\n\n\n\n\n\nこのウェブサイトで使用しているYAML（初期設定）です\n\n\n1.0.1 YAML in building this website\nproject:\n  type: website\n  output-dir: _docs\n  render:\n    - \"*.qmd\"\n    - \"!drafts/\"\n\nwebsite:\n  title: \"quarto-pe\"\n  navbar:\n    aria-label: Main navigation\n    background: dark\n    search: true\n    left:\n      - href: index.qmd\n        text: Home\n      - text: Contents\n        menu:\n          - href: content1.html\n            text: Content1\n          - href: content2.html\n            text: Content2\n          - href: content3.html\n            text: Content3\n\nformat:\n  html:\n    theme: cosmo\n    css: styles.css\n    toc: true\n    code-fold: true\n    code-tools: true\n  pdf:\n    documentclass: article\n    margin-left: 30mm\n    margin-right: 30mm\n\nexecute:\n  echo: true\n  warning: false\n  error: false\n  cache: true\n\nfreeze: auto\n\nresources:\n  - CNAME\n  - .nojekyll\n\neditor: visual\n\ncode 出力（&lt;/&gt;）\nPDF出力（このページはサイズ（A4）に対応しています）\n以上をお試しください。\n\nYAML に { editor: visual }を追記するといわゆるビジュアル・モードで編集できるようになります。\n\n\n\n編集画面\n\n\n\n==="
   },
   {
     "objectID": "content2.html",
@@ -53,7 +53,7 @@
     "href": "content4.html",
     "title": "Content4",
     "section": "",
-    "text": "1 My Quarto Project\nテンプレート集\n\n\n\n\n工事中"
+    "text": "1 My Quarto Project\n\n1.0.1 テンプレート集\n\n\n\n\n工事中"
   },
   {
     "objectID": "index.html",
