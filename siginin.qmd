@@ -22,24 +22,24 @@ format:
     papersize: a4
 ---
 
-# Welcome to My Quarto Project
+# Sign in
 
 このウェブサイトは quarto を使用して作成しています
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+<form action="YOUR_SIGNIN_ENDPOINT" method="POST">
 
-and
+<label for="username">ユーザー名:</label> <input type="text" id="username" name="username" required>
 
-**This site contains a yaml template**
+<label for="password">パスワード:</label> <input type="password" id="password" name="password" required>
+
+<button type="submit">サインイン</button>
+
+</form>
 
 > This page will be updated as needed.
 
 ------------------------------------------------------------------------
 
-<<<<<<< HEAD
-===
-=======
 ===
 
-\^C
->>>>>>> 964e2e6a50cca8c1282a8cc19b9c12962672387f
+\^UC

@@ -1,2 +1,6 @@
 .DS_Store
 /.quarto/
+<<<<<<< HEAD
+=======
+*.user
+>>>>>>> 964e2e6a50cca8c1282a8cc19b9c12962672387f

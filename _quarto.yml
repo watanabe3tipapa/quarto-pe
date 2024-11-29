@@ -1,6 +1,10 @@
 project:
   type: website
+<<<<<<< HEAD
   output-dir: docs
+=======
+  output-dir: _docs
+>>>>>>> 964e2e6a50cca8c1282a8cc19b9c12962672387f
   render:
     - "*.qmd"
     - "!drafts/"
@@ -22,6 +26,7 @@ website:
             text: Content2
           - href: content3.html
             text: Content3
+<<<<<<< HEAD
           - href: content4.html
             text: Content4
           - href: content5.html
@@ -32,6 +37,11 @@ website:
       - href: "https://github.com/watanabe3tipapa/quarto-pe"
         text: Gihub
         icon: github
+=======
+    right:
+      - href: siginin.html
+        text: Sign in
+>>>>>>> 964e2e6a50cca8c1282a8cc19b9c12962672387f
 
 format:
   html:
