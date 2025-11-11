@@ -24,9 +24,144 @@ format:
 
 # Quarto & Q markdown Notations
 
-## Quarto
+## Quarto入門（初学者向け・簡潔ガイド）
 
-**UC**
+**前提**: QuartoはR、Python、Juliaなどでドキュメントやレポート、プレゼンを作るためのツールです。ここでは基本的なワークフローを例で示します（RまたはPythonどちらでも同様に使えます）。
+
+### 1. インストール
+- Quarto本体（クロスプラットフォーム）をインストール:
+  - Windows/Mac/Linux: https://quarto.org/download/ からインストーラを落として実行
+- エディタ: VS Code または RStudio（Rユーザ向け）
+- （R 使用時）必要なら pandoc は Quartoに同梱済み。Rパッケージは不要だが、RMarkdownから移行する場合は quarto Rパッケージを入れると便利:
+  ```r
+  install.packages("quarto")
+  ```
+
+### 2. プロジェクトの作成（コマンドライン）
+1. 新しいフォルダを作る:
+   ```bash
+   mkdir my-quarto-project
+   cd my-quarto-project
+   ```
+2. Quartoドキュメントを作成:
+   ```bash
+   quarto create-project .
+   quarto create hello.qmd
+   ```
+   または単一ファイルだけ作る:
+   ```bash
+   quarto create hello.qmd --type doc
+   ```
+
+### 3. .qmd ファイルの基本構造
+- YAMLヘッダ（メタ情報） + マークダウン + コードチャンク
+
+例: hello.qmd
+```markdown
+---
+title: "はじめての Quarto"
+format: html
+---
+
+# セクション1
+
+普通のMarkdown本文。
+
+```{r}
+# Rコードチャンクの例
+x <- rnorm(100)
+mean(x)
+```
+
+```{python}
+# Pythonコードチャンクの例
+import numpy as np
+np.mean(np.random.randn(100))
+```
+```
+
+- コードチャンクは ```{r} または ```{python} のように言語を指定。
+
+### 4. レンダリング（出力生成）
+- コマンドラインで:
+  ```bash
+  quarto render hello.qmd
+  ```
+  これで hello.html（指定がhtmlなら）が生成される。
+- VS Code / RStudioなら「Render」ボタンで同様。
+
+### 5. 出力形式の変更（HTML, PDF, Word, RevealJS）
+- YAMLで指定:
+```yaml
+format:
+  html: default
+  pdf: default
+  docx: default
+```
+- プレゼン (Reveal.js):
+```yaml
+format: revealjs
+```
+
+PDF出力はLaTeX環境（TeX Liveなど）が必要になる場合あり。
+
+### 6. データとコード分離（再現可能レポートの例）
+- データ読込はコードチャンク内で行う。コードの結果（図表）を自動で埋め込める。
+- キャッシュや結果制御:
+```markdown
+```{r}
+#| cache: true
+#| echo: false
+plot(x)
+```
+```
+
+### 7. テンプレートとプロジェクト設定
+- _quarto.yml をプロジェクトルートに置くとプロジェクト共通設定が可能。
+例:
+```yaml
+project:
+  type: website
+website:
+  title: "My Site"
+format:
+  html:
+    theme: cosmo
+```
+
+### 8. よく使うオプションのメモ
+- echo: コード表示の有無（true/false）
+- eval: 実行するか（true/false）
+- cache: 実行結果をキャッシュして高速化
+- fig-cap: 図のキャプション
+
+例:
+```markdown
+```{r}
+#| echo: true
+#| eval: true
+#| fig-cap: "ヒストグラム"
+hist(x)
+```
+```
+
+### 9. デバッグのコツ
+- エラーメッセージはまずコードチャンク単体で実行して原因を特定。
+- YAMLはインデントやコロンに注意。YAMLエラーはレンダリング失敗の主因。
+- 依存ライブラリは事前にインストール（R: install.packages, Python: pip/conda）。
+
+### 10. 参考コマンド一覧（速習）
+- レンダー: quarto render file.qmd
+- プロジェクト作成: quarto create-project myproj
+- サイトプレビュー（ライブサーバー）:
+  ```bash
+  quarto preview
+  ```
+- テンプレート一覧: quarto templates
+
+---
+
+------------------------------------------------------------------------
 
 ## Q markdown Notation
 
