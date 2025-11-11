@@ -25,9 +25,6 @@ format:
 
 # My Quarto Project
 
-<<<<<<< HEAD
-YAMLの事例（next.watanabe3ti.com：初期設定値）
-=======
 YAMLの事例（watanabe3tipapa.github.io）
 
 ``` yaml
@@ -110,7 +107,6 @@ editor: visual
 ```
 
 YAMLの事例（next.watanabe3ti.com）
->>>>>>> 964e2e6a50cca8c1282a8cc19b9c12962672387f
 
 ------------------------------------------------------------------------
 
@@ -121,11 +117,8 @@ project:
 
 website:
   title: next.watanabe3ti.com
-<<<<<<< HEAD
   description: "watanabe3ti.comのつくり方"
   image: "./assets/ogp_next.jpg"
-=======
->>>>>>> 964e2e6a50cca8c1282a8cc19b9c12962672387f
   navbar:
     aria-label: Main navigation
     background: dark
@@ -195,19 +188,10 @@ format:
     html-math-method: katex
 
 lang: ja-JP
-<<<<<<< HEAD
 
 editor: visual
-=======
->>>>>>> 964e2e6a50cca8c1282a8cc19b9c12962672387f
 ```
 
 ------------------------------------------------------------------------
 
-<<<<<<< HEAD
-===
-=======
-===
-
-\^C
->>>>>>> 964e2e6a50cca8c1282a8cc19b9c12962672387f
+#
