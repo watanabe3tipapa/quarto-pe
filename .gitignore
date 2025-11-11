@@ -1,6 +1,25 @@
 .DS_Store
 /.quarto/
-<<<<<<< HEAD
-=======
 *.user
->>>>>>> 964e2e6a50cca8c1282a8cc19b9c12962672387f
+
+# Quarto temporary files
+*.log
+*.tex
+*.aux
+*.synctex.gz
+*.out
+*.toc
+
+# R specific
+.Rhistory
+.RData
+.Ruserdata
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+Thumbs.db
