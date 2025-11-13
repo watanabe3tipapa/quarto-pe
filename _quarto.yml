@@ -51,7 +51,7 @@ execute:
   error: false
   cache: true
 
-freeze: auto
+freeze: false
 
 resources:
   - CNAME
