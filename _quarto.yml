@@ -48,7 +48,7 @@ format:
 execute:
   echo: true
   warning: false
-  error: false
+  error: true
   cache: true
 
 freeze: false
