@@ -32,6 +32,8 @@ website:
       - href: "https://github.com/watanabe3tipapa/quarto-pe"
         text: Github
         icon: github
+      - href: signin.html
+        text: Sign in
 
 format:
   html:

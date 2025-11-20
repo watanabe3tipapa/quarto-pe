@@ -17,7 +17,7 @@ execute:
   warning: false
 format:
   html:
-    css: custom-styles.css
+    css: styles.css
   pdf:
     documentclass: article
     papersize: a4
@@ -193,5 +193,4 @@ editor: visual
 ```
 
 ------------------------------------------------------------------------
-
 
