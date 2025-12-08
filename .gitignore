@@ -23,3 +23,5 @@
 
 # OS generated files
 Thumbs.db
+
+**/*.quarto_ipynb

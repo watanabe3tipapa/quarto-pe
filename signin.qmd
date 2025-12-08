@@ -32,7 +32,11 @@ format:
 
 <label for="password">パスワード:</label> <input type="password" id="password" name="password" required>
 
-<button type="submit">サインイン</button>
+<button type="submit">
+
+サインイン
+
+</button>
 
 </form>
 
