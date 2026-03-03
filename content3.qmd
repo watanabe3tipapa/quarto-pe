@@ -1,13 +1,11 @@
 ---
 title: "Content3"
-subtitle: "An Example of Best Practices"
+subtitle: "_quarto.yml テンプレート集"
 author: "watanabe3tipapa"
 date: last-modified
 description: |
-  This is the main page of my Quarto project, 
-  demonstrating best practices in YAML configuration.
-  Content3
-lang: jp
+  Quarto の _quarto.yml 設定テンプレート集
+lang: ja
 toc: true
 number-sections: true
 highlight-style: github
@@ -23,10 +21,288 @@ format:
     papersize: a4
 ---
 
-# My Quarto Project
+# _quarto.yml テンプレート集
 
-テンプレート集
+Quarto の設定ファイルをまとめています。
 
-------------------------------------------------------------------------
+---
 
-![工事中](assets/UC900.jpg){fig-alt="随時掲載していきます" fig-align="center"}
+## 1. 基本的な構造
+
+```yaml
+project:
+  type: website          # website, book, blog, presentation, article
+  output-dir: docs       # 出力ディレクトリ
+
+website:
+  title: "サイトタイトル"
+  navbar:
+    background: dark
+
+format:
+  html:
+    theme: spacelab
+    toc: true
+    code-fold: true
+```
+
+---
+
+## 2. プロジェクト種類
+
+| type | 説明 |
+|------|------|
+| `website` | 静的ウェブサイト（`_site`） |
+| `book` | 書籍（`_book`） |
+| `blog` | ブログ |
+| `presentation` | スライドショー |
+| `article` | 論文/記事 |
+
+---
+
+## 3. HTML出力
+
+```yaml
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-link: true
+    highlight-style: github
+    theme: [cosmo, bootstrap]
+    mathjax: auto
+    lang: ja
+    navbar:
+      background: primary
+      left:
+        - href: index.qmd
+          text: Home
+```
+
+---
+
+## 4. PDF出力
+
+```yaml
+format:
+  pdf:
+    documentclass: article
+    classoption: [draft, oneside]
+    geometry:
+      - margin=1in
+      - top=1.5in
+    mainfont: "Noto Serif CJK JP"
+    sansfont: "Noto Sans CJK JP"
+    monofont: "Source Han Code JP"
+    fontsize: 11pt
+    number-sections: true
+```
+
+---
+
+## 5. 複数形式同時出力
+
+```yaml
+format:
+  html:
+    toc: true
+  pdf:
+    documentclass: report
+  docx:
+    reference-doc: template.docx
+```
+
+---
+
+## 6. Word出力
+
+```yaml
+format:
+  docx:
+    reference-doc: my-template.docx
+    toc: true
+    toc-depth: 2
+```
+
+---
+
+## 7. Reveal.js スライド
+
+```yaml
+project:
+  type: presentation
+
+format:
+  revealjs:
+    theme: simple
+    transition: slide
+    slide-number: c/t
+    code-fold: true
+    embed-resources: true
+```
+
+---
+
+## 8. ウェブサイト設定
+
+```yaml
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "私のウェブサイト"
+  description: "サイトの説明"
+  navbar:
+    background: dark
+    search: true
+    left:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: About
+    right:
+      - icon: github
+        href: https://github.com/username
+  footer: "© 2026 名前"
+  open-graph: true
+```
+
+---
+
+## 9. ブログ設定
+
+```yaml
+project:
+  type: website
+
+website:
+  title: "マイブログ"
+  navbar:
+    background: dark
+
+blog:
+  post-date-format: "yyyy年MM月dd日"
+
+format:
+  html:
+    theme: [cosmo, darkly]
+```
+
+---
+
+## 10. 書籍プロジェクト
+
+```yaml
+project:
+  type: book
+
+book:
+  title: "私の本"
+  author: "名前"
+  chapters:
+    - index.qmd
+    - 01-intro.qmd
+    - 02-method.qmd
+    - conclusion.qmd
+  toc: true
+  downloads: [pdf, epub]
+```
+
+---
+
+## 11. デフォルト設定
+
+```yaml
+defaults:
+  format:
+    html:
+      theme: flatly
+      toc: true
+      code-fold: true
+  execute:
+    echo: true
+    warning: false
+```
+
+---
+
+## 12. 変数を使う
+
+```yaml
+# _quarto.yml
+vars:
+  author: "名前"
+  email: "mail@example.com"
+```
+
+```qmd
+---
+# .qmd 内
+著者: {{< var author >}}
+メール: {{< var email >}}
+```
+
+---
+
+## 13. リソース指定
+
+```yaml
+project:
+  type: website
+  resources:
+    - "images/*"
+    - "data/*.csv"
+    - "style.css"
+```
+
+---
+
+## 14. フィルター
+
+```yaml
+filters:
+  - adjustbox
+  - "quarto-diagrams"  # Mermaid
+```
+
+---
+
+## 15. 学術論文（PDF + HTML）
+
+```yaml
+title: "論文タイトル"
+author:
+  - name: 名前
+    affiliation: 大学
+date: today
+bibliography: references.bib
+
+project:
+  type: article
+
+format:
+  html:
+    toc: true
+    number-sections: true
+  pdf:
+    documentclass: article
+    geometry: margin=1in
+    number-sections: true
+```
+
+---
+
+## Tips
+
+| ポイント | メモ |
+|---------|------|
+| ファイル名は `_quarto.yml` | アンダースコア始まり |
+| インデントはスペース2つ | YAML惯例 |
+| コメントは `#` | |
+| ローカル上書き | `_quarto.local.yml` |
+
+---
+
+*このテンプレート集は README.md を参考に作成しています*
