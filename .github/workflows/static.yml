@@ -32,8 +32,7 @@ jobs:
         uses: r-lib/actions/setup-r@v2
 
       - name: Install R packages
-        run: |
-          install.packages(c("rmarkdown", "tidyverse", "ggplot2"))
+        run: Rscript -e 'install.packages(c("rmarkdown", "tidyverse", "ggplot2"))'
 
       - name: Install Quarto
         uses: quarto-dev/quarto-actions/setup@v2
