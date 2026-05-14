@@ -72,6 +72,48 @@ quarto-pe/
 | `content1-5.qmd` の front matter | YAML に重複・タイポあり（Content4/5 の description に "Content3" と記載）。後日リファクタリング推奨。 |
 | CSS の実装状況 | `custom-styles.css` はほぼ空。`styles.css` は方眼紙デザインだが一部未完成。 |
 
+## コンテンツ一覧（全5ファイル）
+
+| File | 行数 | 主題 |
+|------|------|------|
+| `content1.qmd` | 105 | このプロジェクトの `_quarto.yml` 解説 |
+| `content2.qmd` | 195 | 実在サイトのYAML事例（watanabe3tipapa.github.io, next.watanabe3ti.com） |
+| `content3.qmd` | 308 | `_quarto.yml` テンプレート集（プロジェクト設定YAML、全16セクション） |
+| `content4.qmd` | 315 | **qmdテンプレート集：コード実行・動的コンテンツ** |
+| `content5.qmd` | 370 | **qmdテンプレート集：構造化・多形式連携** |
+
+### content4.qmd 構成
+
+qmdの利点（実行可能コードチャンク、動的コンテンツ、パラメータ化）を活かしたテンプレート集。
+
+| # | テンプレート | デモ内容 |
+|---|-------------|----------|
+| 1 | 基本の計算ドキュメント | Rコードチャンク実行 + 図の自動埋め込み + インラインコードで動的值表示 |
+| 2 | パラメータ化レポート | YAML `params:` による外部値注入、`quarto render -P` による差し替え |
+| 3 | Observable JS連携 | `ojs` チャンク + `Inputs.range` スライダー + `Plot.plot()` によるインタラクティブ可視化 |
+| 4 | インラインコード活用 | `` `r code` `` の本文直接埋め込み + `{{< var >}}` との使い分け |
+| 5 | チャンクオプション見本帳 | `echo`/`eval`/`include`/`fig-cap`/`column:margin`/`out-width`/`cache` の比較 |
+
+### content5.qmd 構成
+
+構造化（相互参照・Callouts・マルチフォーマット）と実践的な出力制御のテンプレート集。
+
+| # | テンプレート | デモ内容 |
+|---|-------------|----------|
+| 1 | 相互参照テンプレート | `@fig-`/`@tbl-`/`@sec-` 自動ナンバリング + 相互参照リンク |
+| 2 | マルチフォーマット出力 | 同一.qmdからHTML+PDF+DOCX同時出力、形式別オプションの条件分岐 |
+| 3 | Div / Callouts / Layout | 5種のCallouts + `.grid`/`.panel-tabset` レイアウト実例 |
+| 4 | 文献管理 + 引用 | `bibliography:` + `@citekey` → 自動参考文献リスト |
+| 5 | Front Matter 上書き | ファイル単位で `_quarto.yml` の設定をOverrideする5パターン |
+
+### content4/5 実装時の注意点
+
+| 項目 | 内容 |
+|------|------|
+| `params` 未定義エラー | テンプレート例示内の `params$xxx` 参照のため、YAML front matter に `params:` を追加必須 |
+| インラインRコードのエスケープ | 説明文中に `` `r code` `` を書くとQuartoが実行しようとする。`<code>` HTML タグで回避 |
+| `docs/_quarto-yml-reference.md` 消失 | `quarto render` が出力ディレクトリを管理するため、ソースファイルを `docs/` に置くと削除される。ルートに移動して対策。 |
+
 ## 今後の拡張アイデア（任意）
 
 - SNS シェアボタンの追加
