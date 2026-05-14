@@ -1,13 +1,11 @@
 ---
 title: "Content4"
-subtitle: "An Example of Best Practices"
+subtitle: "qmd テンプレート集 — コード実行と動的コンテンツ"
 author: "watanabe3tipapa"
 date: last-modified
 description: |
-  This is the main page of my Quarto project, 
-  demonstrating best practices in YAML configuration.
-  Content3
-lang: jp
+  Quarto qmd ファイルのコード実行機能と動的コンテンツ生成のテンプレート集
+lang: ja
 toc: true
 number-sections: true
 highlight-style: github
@@ -21,12 +19,297 @@ format:
   pdf:
     documentclass: article
     papersize: a4
+params:
+  n: 100
+  mean: 50
+  sd: 10
+  title: "デフォルトタイトル"
 ---
 
-# My Quarto Project
+# qmd テンプレート集 — コード実行と動的コンテンツ
 
-### テンプレート集
+このページでは、Quarto の `.qmd` ファイルが持つ **コード実行機能** と **動的コンテンツ生成** を活かしたテンプレートを紹介します。
 
-------------------------------------------------------------------------
+生の Markdown ではできない、qmd ならではの機能を実例で確認してください。
 
-![工事中](assets/UC900.jpg){fig-alt="随時掲載していきます" fig-align="center"}
+---
+
+## 1. 基本の計算ドキュメント
+
+コードチャンクで計算し、結果を自動埋め込みする最も基本的なパターンです。
+
+### テンプレート
+
+```qmd
+---
+title: "基本統計レポート"
+format: html
+execute:
+  echo: true
+---
+
+# データの要約
+
+{verbatim}
+```{r}
+#| echo: true
+#| fig-cap: "ヒストグラム"
+
+# データ生成
+x <- rnorm(100, mean = 50, sd = 10)
+
+# 基本統計量
+mean_x <- mean(x)
+sd_x <- sd(x)
+
+# ヒストグラム描画
+hist(x, main = "ヒストグラム", col = "steelblue")
+```
+
+## 結果
+
+平均: `r mean_x`、標準偏差: `r sd_x`
+```
+```
+
+### 実行結果（このページでの出力）
+
+```{r}
+#| echo: true
+#| fig-cap: "ヒストグラム"
+
+x <- rnorm(100, mean = 50, sd = 10)
+mean_x <- mean(x)
+sd_x <- sd(x)
+hist(x, main = "ヒストグラム", col = "steelblue")
+```
+
+平均: `r mean_x`、標準偏差: `r sd_x`
+
+---
+
+## 2. パラメータ化レポート
+
+`params` キーで外部から値を注入し、1つのテンプレートから複数のレポートを生成するパターンです。
+
+### テンプレート
+
+```qmd
+---
+title: "パラメータ化レポート"
+format: html
+params:
+  n: 100
+  mean: 50
+  sd: 10
+  title: "デフォルトタイトル"
+execute:
+  echo: true
+---
+
+# `r params$title`
+
+## 設定値
+
+- サンプルサイズ: `r params$n`
+- 平均: `r params$mean`
+- 標準偏差: `r params$sd`
+
+{verbatim}
+```{r}
+#| echo: true
+data <- rnorm(params$n, mean = params$mean, sd = params$sd)
+hist(data, main = params$title, col = "tomato")
+```
+```
+
+異なるパラメータでレンダリングするには：
+
+```bash
+quarto render report.qmd -P n:500 -P mean:100 -P title:"500件のデータ"
+```
+
+### 実行結果（このページでの出力）
+
+```{r}
+n <- 100
+mu <- 50
+sigma <- 10
+data <- rnorm(n, mean = mu, sd = sigma)
+hist(data, main = paste0("n = ", n, ", mean = ", mu, ", sd = ", sigma), col = "tomato")
+```
+
+---
+
+## 3. Observable JS 連携
+
+Quarto は R/Python に加えて **Observable JS** (`ojs`) をネイティブサポートしています。ブラウザ上でインタラクティブな可視化が可能です。
+
+### テンプレート
+
+```qmd
+---
+title: "Observable JS デモ"
+format: html
+---
+
+{verbatim}
+```{ojs}
+// スライダーでサンプルサイズを変更
+viewof n = Inputs.range([10, 500], {value: 100, label: "サンプルサイズ", step: 10})
+
+// ランダムデータ生成
+data = Array.from({length: n}, () => Math.random() * 100)
+
+// ヒストグラム描画
+{
+  const bins = 20;
+  const width = 600;
+  const height = 300;
+  // Plot を使用した可視化
+  Plot.plot({
+    y: {grid: true},
+    marks: [Plot.rectY(data, Plot.binX({y: "count"}, {x: (d) => d, thresholds: bins}))]
+  })
+}
+```
+```
+
+```{ojs}
+//| echo: true
+//| fig-cap: "Observable JS によるインタラクティブヒストグラム"
+
+viewof n = Inputs.range([10, 500], {value: 100, label: "サンプルサイズ", step: 10})
+```
+
+```{ojs}
+data = Array.from({length: n}, () => Math.random() * 100)
+```
+
+```{ojs}
+Plot.plot({
+  y: {grid: true},
+  marks: [Plot.rectY(data, Plot.binX({y: "count"}, {x: (d) => d, thresholds: 20}))]
+}).figure
+```
+
+---
+
+## 4. インラインコード活用
+
+コードチャンクを介さず、本文中に直接動的な値を埋め込む方法です。R の場合は <code>r 式</code> をバッククォートで囲む構文、Python の場合は <code>python 式</code> をバッククォートで囲む構文を使います。
+
+### テンプレート
+
+```qmd
+---
+title: "インラインコード活用"
+format: html
+---
+
+{verbatim}
+```{r}
+#| include: false
+total <- 1000
+passed <- 850
+rate <- passed / total * 100
+```
+
+本日のテストは **`r total` 問中 `r passed` 問** 合格でした。
+合格率は **`r round(rate, 1)`%** です。
+```
+
+### 実行結果
+
+```{r}
+#| include: false
+total <- 1000
+passed <- 850
+rate <- passed / total * 100
+```
+
+本日のテストは **`r total` 問中 `r passed` 問** 合格でした。合格率は **`r paste0(round(rate, 1), "%")`** です。
+
+### YAML 変数との組み合わせ
+
+`_quarto.yml` で定義した変数は `{{< var name >}}` で参照できます。
+
+```yaml
+# _quarto.yml
+vars:
+  author: "watanabe3tipapa"
+  year: 2025
+```
+
+```qmd
+著者: {{< var author >}}（{{< var year >}}）
+```
+
+---
+
+## 5. チャンクオプション見本帳
+
+チャンクオプションを使い分けることで、出力の見た目や動作を細かく制御できます。
+
+```qmd
+---
+title: "チャンクオプション見本帳"
+format: html
+---
+
+{verbatim}
+```{r}
+#| echo: true          # コードを表示（デフォルト）
+#| eval: true          # コードを実行（デフォルト）
+#| include: true       # 出力を含める（デフォルト）
+#| fig-cap: "図のタイトル"
+#| fig-width: 6
+#| fig-height: 4
+#| column: margin      # 余白に配置
+#| out-width: 80%      # 出力幅を制限
+#| cache: true         # 結果をキャッシュ
+plot(1:10)
+```
+```
+
+### オプション一覧
+
+| オプション | 値の例 | 説明 |
+|-----------|--------|------|
+| `echo` | `true` / `false` | ソースコードの表示/非表示 |
+| `eval` | `true` / `false` | コードの実行/スキップ |
+| `include` | `true` / `false` | 出力全体の包含/除外 |
+| `fig-cap` | `"文字列"` | 図のキャプション |
+| `fig-width` / `fig-height` | 数値 | 図の寸法（インチ） |
+| `column` | `"margin"` / `"screen-inset"` | 出力のレイアウト位置 |
+| `out-width` | `"80%"` / `"500px"` | 出力幅の制限 |
+| `cache` | `true` / `false` | 実行結果のキャッシュ制御 |
+
+### 配置パターン比較
+
+```{r}
+#| echo: true
+#| fig-cap: "通常配置（本文幅）"
+#| column: screen
+#| fig-width: 8
+#| fig-height: 3
+par(mar = c(3, 3, 2, 1))
+barplot(1:5, col = "steelblue", main = "column: screen")
+```
+
+```{r}
+#| echo: false
+#| fig-cap: "余白配置（column: margin）"
+#| column: margin
+#| fig-width: 4
+#| fig-height: 3
+par(mar = c(3, 3, 2, 1))
+barplot(1:5, col = "tomato", main = "column: margin")
+```
+
+---
+
+## 参考
+
+- Content3: [_quarto.yml テンプレート集](content3.html) — プロジェクト設定のテンプレート
+- [Content5](content5.html) — 構造化・多形式連携のテンプレート

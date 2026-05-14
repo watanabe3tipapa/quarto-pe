@@ -16,7 +16,7 @@
 
 ## 特徴
 
-- **`_quarto.yml` 網羅的リファレンス** — 全キーを実例付きで解説（[docs/_quarto-yml-reference.md](docs/_quarto-yml-reference.md)）
+- **`_quarto.yml` 網羅的リファレンス** — 全キーを実例付きで解説（[_quarto-yml-reference.md](_quarto-yml-reference.md)）
 - **実践的な設定例** — 学術論文、Blog、Reveal.js スライドのテンプレート完備
 - **デュアル出力** — 1つのソースから HTML + PDF を同時生成
 - **CI/CD 対応** — GitHub Actions で自動ビルド＆GitHub Pages デプロイ
@@ -45,7 +45,7 @@ quarto render
 # 出力先: ./docs/
 ```
 
-`_quarto.yml` の詳細リファレンスは [docs/_quarto-yml-reference.md](docs/_quarto-yml-reference.md) を参照してください。
+`_quarto.yml` の詳細リファレンスは [_quarto-yml-reference.md](_quarto-yml-reference.md) を参照してください。
 
 ## コントリビューション
 

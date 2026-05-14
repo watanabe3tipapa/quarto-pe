@@ -18,7 +18,56 @@
     "href": "content4.html",
     "title": "Content4",
     "section": "",
-    "text": "1 My Quarto Project\n\n1.0.1 テンプレート集\n\n\n\n\n工事中"
+    "text": "このページでは、Quarto の .qmd ファイルが持つ コード実行機能 と 動的コンテンツ生成 を活かしたテンプレートを紹介します。\n生の Markdown ではできない、qmd ならではの機能を実例で確認してください。\n\n\n\nコードチャンクで計算し、結果を自動埋め込みする最も基本的なパターンです。\n\n\n---\ntitle: \"基本統計レポート\"\nformat: html\nexecute:\n  echo: true\n---\n\n# データの要約\n\n{verbatim}\n\n::: {.cell}\n\n```{.r .cell-code}\n# データ生成\nx &lt;- rnorm(100, mean = 50, sd = 10)\n\n# 基本統計量\nmean_x &lt;- mean(x)\nsd_x &lt;- sd(x)\n\n# ヒストグラム描画\nhist(x, main = \"ヒストグラム\", col = \"steelblue\")\n\n\n\n\nヒストグラム\n\n\n\n:::\n\n\n\n\n平均: 50.7299567、標準偏差: 9.1690952\n\n\n\n\n\nコード\nx &lt;- rnorm(100, mean = 50, sd = 10)\nmean_x &lt;- mean(x)\nsd_x &lt;- sd(x)\nhist(x, main = \"ヒストグラム\", col = \"steelblue\")\n\n\n\n\n\nヒストグラム\n\n\n\n\n平均: 49.4819128、標準偏差: 9.6320646\n\n\n\n\n\nparams キーで外部から値を注入し、1つのテンプレートから複数のレポートを生成するパターンです。\n\n\n---\ntitle: \"パラメータ化レポート\"\nformat: html\nparams:\n  n: 100\n  mean: 50\n  sd: 10\n  title: \"デフォルトタイトル\"\nexecute:\n  echo: true\n---\n\n# デフォルトタイトル\n\n## 設定値\n\n- サンプルサイズ: 100\n- 平均: 50\n- 標準偏差: 10\n\n{verbatim}\n\n::: {.cell}\n\n```{.r .cell-code}\ndata &lt;- rnorm(params$n, mean = params$mean, sd = params$sd)\nhist(data, main = params$title, col = \"tomato\")\n\n\n\n\n\n\n\n:::\n\n異なるパラメータでレンダリングするには：\n\n```bash\nquarto render report.qmd -P n:500 -P mean:100 -P title:\"500件のデータ\"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nQuarto は R/Python に加えて Observable JS (ojs) をネイティブサポートしています。ブラウザ上でインタラクティブな可視化が可能です。\n\n\n---\ntitle: \"Observable JS デモ\"\nformat: html\n---\n\n{verbatim}\n```{ojs}\n// スライダーでサンプルサイズを変更\nviewof n = Inputs.range([10, 500], {value: 100, label: \"サンプルサイズ\", step: 10})\n\n// ランダムデータ生成\ndata = Array.from({length: n}, () =&gt; Math.random() * 100)\n\n// ヒストグラム描画\n{\n  const bins = 20;\n  const width = 600;\n  const height = 300;\n  // Plot を使用した可視化\n  Plot.plot({\n    y: {grid: true},\n    marks: [Plot.rectY(data, Plot.binX({y: \"count\"}, {x: (d) =&gt; d, thresholds: bins}))]\n  })\n}\n\n```{ojs}\n//| echo: true\n//| fig-cap: \"Observable JS によるインタラクティブヒストグラム\"\n\nviewof n = Inputs.range([10, 500], {value: 100, label: \"サンプルサイズ\", step: 10})\n\n\nコード\ndata = Array.from({length: n}, () =&gt; Math.random() * 100)\n\n\n\n\n\n\n\n\n\nコード\nPlot.plot({\n  y: {grid: true},\n  marks: [Plot.rectY(data, Plot.binX({y: \"count\"}, {x: (d) =&gt; d, thresholds: 20}))]\n}).figure\n\n\n\n\n\n\n\n\n\n\n\n\nコードチャンクを介さず、本文中に直接動的な値を埋め込む方法です。R の場合は r 式 をバッククォートで囲む構文、Python の場合は python 式 をバッククォートで囲む構文を使います。\n\n\n---\ntitle: \"インラインコード活用\"\nformat: html\n---\n\n{verbatim}\n\n\n本日のテストは **1000 問中 850 問** 合格でした。\n合格率は **85%** です。\n\n\n\n本日のテストは 1000 問中 850 問 合格でした。合格率は 85% です。\n\n\n\n_quarto.yml で定義した変数は ?var:name で参照できます。\n# _quarto.yml\nvars:\n  author: \"watanabe3tipapa\"\n  year: 2025\n著者: ?var:author（?var:year）\n\n\n\n\n\nチャンクオプションを使い分けることで、出力の見た目や動作を細かく制御できます。\n---\ntitle: \"チャンクオプション見本帳\"\nformat: html\n---\n\n{verbatim}\n\n::: {.cell .column-margin}\n\n```{.r .cell-code}\nplot(1:10)\n\n\n\n\n図のタイトル\n\n\n\n:::\n\n### オプション一覧\n\n| オプション | 値の例 | 説明 |\n|-----------|--------|------|\n| `echo` | `true` / `false` | ソースコードの表示/非表示 |\n| `eval` | `true` / `false` | コードの実行/スキップ |\n| `include` | `true` / `false` | 出力全体の包含/除外 |\n| `fig-cap` | `\"文字列\"` | 図のキャプション |\n| `fig-width` / `fig-height` | 数値 | 図の寸法（インチ） |\n| `column` | `\"margin\"` / `\"screen-inset\"` | 出力のレイアウト位置 |\n| `out-width` | `\"80%\"` / `\"500px\"` | 出力幅の制限 |\n| `cache` | `true` / `false` | 実行結果のキャッシュ制御 |\n\n### 配置パターン比較\n\n\n::: {.cell .column-screen}\n\n```{.r .cell-code}\npar(mar = c(3, 3, 2, 1))\nbarplot(1:5, col = \"steelblue\", main = \"column: screen\")\n\n\n\n\n通常配置（本文幅）\n\n\n\n:::\n\n\n\n\n\n\n余白配置（column: margin）\n\n\n\n\n\n\n\n\nContent3: _quarto.yml テンプレート集 — プロジェクト設定のテンプレート\nContent5 — 構造化・多形式連携のテンプレート"
+  },
+  {
+    "objectID": "content4.html#基本の計算ドキュメント",
+    "href": "content4.html#基本の計算ドキュメント",
+    "title": "Content4",
+    "section": "",
+    "text": "コードチャンクで計算し、結果を自動埋め込みする最も基本的なパターンです。\n\n\n---\ntitle: \"基本統計レポート\"\nformat: html\nexecute:\n  echo: true\n---\n\n# データの要約\n\n{verbatim}\n\n::: {.cell}\n\n```{.r .cell-code}\n# データ生成\nx &lt;- rnorm(100, mean = 50, sd = 10)\n\n# 基本統計量\nmean_x &lt;- mean(x)\nsd_x &lt;- sd(x)\n\n# ヒストグラム描画\nhist(x, main = \"ヒストグラム\", col = \"steelblue\")\n\n\n\n\nヒストグラム\n\n\n\n:::"
+  },
+  {
+    "objectID": "content4.html#結果",
+    "href": "content4.html#結果",
+    "title": "Content4",
+    "section": "",
+    "text": "平均: 50.7299567、標準偏差: 9.1690952\n\n\n\n\n\nコード\nx &lt;- rnorm(100, mean = 50, sd = 10)\nmean_x &lt;- mean(x)\nsd_x &lt;- sd(x)\nhist(x, main = \"ヒストグラム\", col = \"steelblue\")\n\n\n\n\n\nヒストグラム\n\n\n\n\n平均: 49.4819128、標準偏差: 9.6320646"
+  },
+  {
+    "objectID": "content4.html#パラメータ化レポート",
+    "href": "content4.html#パラメータ化レポート",
+    "title": "Content4",
+    "section": "",
+    "text": "params キーで外部から値を注入し、1つのテンプレートから複数のレポートを生成するパターンです。\n\n\n---\ntitle: \"パラメータ化レポート\"\nformat: html\nparams:\n  n: 100\n  mean: 50\n  sd: 10\n  title: \"デフォルトタイトル\"\nexecute:\n  echo: true\n---\n\n# デフォルトタイトル\n\n## 設定値\n\n- サンプルサイズ: 100\n- 平均: 50\n- 標準偏差: 10\n\n{verbatim}\n\n::: {.cell}\n\n```{.r .cell-code}\ndata &lt;- rnorm(params$n, mean = params$mean, sd = params$sd)\nhist(data, main = params$title, col = \"tomato\")\n\n\n\n\n\n\n\n:::\n\n異なるパラメータでレンダリングするには：\n\n```bash\nquarto render report.qmd -P n:500 -P mean:100 -P title:\"500件のデータ\""
+  },
+  {
+    "objectID": "content4.html#observable-js-連携",
+    "href": "content4.html#observable-js-連携",
+    "title": "Content4",
+    "section": "",
+    "text": "Quarto は R/Python に加えて Observable JS (ojs) をネイティブサポートしています。ブラウザ上でインタラクティブな可視化が可能です。\n\n\n---\ntitle: \"Observable JS デモ\"\nformat: html\n---\n\n{verbatim}\n```{ojs}\n// スライダーでサンプルサイズを変更\nviewof n = Inputs.range([10, 500], {value: 100, label: \"サンプルサイズ\", step: 10})\n\n// ランダムデータ生成\ndata = Array.from({length: n}, () =&gt; Math.random() * 100)\n\n// ヒストグラム描画\n{\n  const bins = 20;\n  const width = 600;\n  const height = 300;\n  // Plot を使用した可視化\n  Plot.plot({\n    y: {grid: true},\n    marks: [Plot.rectY(data, Plot.binX({y: \"count\"}, {x: (d) =&gt; d, thresholds: bins}))]\n  })\n}\n\n```{ojs}\n//| echo: true\n//| fig-cap: \"Observable JS によるインタラクティブヒストグラム\"\n\nviewof n = Inputs.range([10, 500], {value: 100, label: \"サンプルサイズ\", step: 10})\n\n\nコード\ndata = Array.from({length: n}, () =&gt; Math.random() * 100)\n\n\n\n\n\n\n\n\n\nコード\nPlot.plot({\n  y: {grid: true},\n  marks: [Plot.rectY(data, Plot.binX({y: \"count\"}, {x: (d) =&gt; d, thresholds: 20}))]\n}).figure"
+  },
+  {
+    "objectID": "content4.html#インラインコード活用",
+    "href": "content4.html#インラインコード活用",
+    "title": "Content4",
+    "section": "",
+    "text": "コードチャンクを介さず、本文中に直接動的な値を埋め込む方法です。R の場合は r 式 をバッククォートで囲む構文、Python の場合は python 式 をバッククォートで囲む構文を使います。\n\n\n---\ntitle: \"インラインコード活用\"\nformat: html\n---\n\n{verbatim}\n\n\n本日のテストは **1000 問中 850 問** 合格でした。\n合格率は **85%** です。\n\n\n\n本日のテストは 1000 問中 850 問 合格でした。合格率は 85% です。\n\n\n\n_quarto.yml で定義した変数は ?var:name で参照できます。\n# _quarto.yml\nvars:\n  author: \"watanabe3tipapa\"\n  year: 2025\n著者: ?var:author（?var:year）"
+  },
+  {
+    "objectID": "content4.html#チャンクオプション見本帳",
+    "href": "content4.html#チャンクオプション見本帳",
+    "title": "Content4",
+    "section": "",
+    "text": "チャンクオプションを使い分けることで、出力の見た目や動作を細かく制御できます。\n---\ntitle: \"チャンクオプション見本帳\"\nformat: html\n---\n\n{verbatim}\n\n::: {.cell .column-margin}\n\n```{.r .cell-code}\nplot(1:10)\n\n\n\n\n図のタイトル\n\n\n\n:::\n\n### オプション一覧\n\n| オプション | 値の例 | 説明 |\n|-----------|--------|------|\n| `echo` | `true` / `false` | ソースコードの表示/非表示 |\n| `eval` | `true` / `false` | コードの実行/スキップ |\n| `include` | `true` / `false` | 出力全体の包含/除外 |\n| `fig-cap` | `\"文字列\"` | 図のキャプション |\n| `fig-width` / `fig-height` | 数値 | 図の寸法（インチ） |\n| `column` | `\"margin\"` / `\"screen-inset\"` | 出力のレイアウト位置 |\n| `out-width` | `\"80%\"` / `\"500px\"` | 出力幅の制限 |\n| `cache` | `true` / `false` | 実行結果のキャッシュ制御 |\n\n### 配置パターン比較\n\n\n::: {.cell .column-screen}\n\n```{.r .cell-code}\npar(mar = c(3, 3, 2, 1))\nbarplot(1:5, col = \"steelblue\", main = \"column: screen\")\n\n\n\n\n通常配置（本文幅）\n\n\n\n:::\n\n\n\n\n\n\n余白配置（column: margin）"
+  },
+  {
+    "objectID": "content4.html#参考",
+    "href": "content4.html#参考",
+    "title": "Content4",
+    "section": "",
+    "text": "Content3: _quarto.yml テンプレート集 — プロジェクト設定のテンプレート\nContent5 — 構造化・多形式連携のテンプレート"
   },
   {
     "objectID": "content2.html",
@@ -39,14 +88,161 @@
     "href": "content3.html",
     "title": "Content3",
     "section": "",
-    "text": "1 My Quarto Project\nテンプレート集\n\n\n\n\n工事中"
+    "text": "Quarto の設定ファイルをまとめています。\n\n\n\nproject:\n  type: website          # website, book, blog, presentation, article\n  output-dir: docs       # 出力ディレクトリ\n\nwebsite:\n  title: \"サイトタイトル\"\n  navbar:\n    background: dark\n\nformat:\n  html:\n    theme: spacelab\n    toc: true\n    code-fold: true\n\n\n\n\n\n\n\ntype\n説明\n\n\n\n\nwebsite\n静的ウェブサイト（_site）\n\n\nbook\n書籍（_book）\n\n\nblog\nブログ\n\n\npresentation\nスライドショー\n\n\narticle\n論文/記事\n\n\n\n\n\n\n\nformat:\n  html:\n    toc: true\n    toc-depth: 3\n    code-fold: true\n    code-link: true\n    highlight-style: github\n    theme: [cosmo, bootstrap]\n    mathjax: auto\n    lang: ja\n    navbar:\n      background: primary\n      left:\n        - href: index.qmd\n          text: Home\n\n\n\n\nformat:\n  pdf:\n    documentclass: article\n    classoption: [draft, oneside]\n    geometry:\n      - margin=1in\n      - top=1.5in\n    mainfont: \"Noto Serif CJK JP\"\n    sansfont: \"Noto Sans CJK JP\"\n    monofont: \"Source Han Code JP\"\n    fontsize: 11pt\n    number-sections: true\n\n\n\n\nformat:\n  html:\n    toc: true\n  pdf:\n    documentclass: report\n  docx:\n    reference-doc: template.docx\n\n\n\n\nformat:\n  docx:\n    reference-doc: my-template.docx\n    toc: true\n    toc-depth: 2\n\n\n\n\nproject:\n  type: presentation\n\nformat:\n  revealjs:\n    theme: simple\n    transition: slide\n    slide-number: c/t\n    code-fold: true\n    embed-resources: true\n\n\n\n\nproject:\n  type: website\n  output-dir: docs\n\nwebsite:\n  title: \"私のウェブサイト\"\n  description: \"サイトの説明\"\n  navbar:\n    background: dark\n    search: true\n    left:\n      - href: index.qmd\n        text: Home\n      - href: about.qmd\n        text: About\n    right:\n      - icon: github\n        href: https://github.com/username\n  footer: \"© 2026 名前\"\n  open-graph: true\n\n\n\n\nproject:\n  type: website\n\nwebsite:\n  title: \"マイブログ\"\n  navbar:\n    background: dark\n\nblog:\n  post-date-format: \"yyyy年MM月dd日\"\n\nformat:\n  html:\n    theme: [cosmo, darkly]\n\n\n\n\nproject:\n  type: book\n\nbook:\n  title: \"私の本\"\n  author: \"名前\"\n  chapters:\n    - index.qmd\n    - 01-intro.qmd\n    - 02-method.qmd\n    - conclusion.qmd\n  toc: true\n  downloads: [pdf, epub]\n\n\n\n\ndefaults:\n  format:\n    html:\n      theme: flatly\n      toc: true\n      code-fold: true\n  execute:\n    echo: true\n    warning: false\n\n\n\n\n# _quarto.yml\nvars:\n  author: \"名前\"\n  email: \"mail@example.com\"\n---\n# .qmd 内\n著者: ?var:author\nメール: ?var:email\n\n\n\n\nproject:\n  type: website\n  resources:\n    - \"images/*\"\n    - \"data/*.csv\"\n    - \"style.css\"\n\n\n\n\nfilters:\n  - adjustbox\n  - \"quarto-diagrams\"  # Mermaid\n\n\n\n\ntitle: \"論文タイトル\"\nauthor:\n  - name: 名前\n    affiliation: 大学\ndate: today\nbibliography: references.bib\n\nproject:\n  type: article\n\nformat:\n  html:\n    toc: true\n    number-sections: true\n  pdf:\n    documentclass: article\n    geometry: margin=1in\n    number-sections: true\n\n\n\n\n\n\n\nポイント\nメモ\n\n\n\n\nファイル名は _quarto.yml\nアンダースコア始まり\n\n\nインデントはスペース2つ\nYAML惯例\n\n\nコメントは #\n\n\n\nローカル上書き\n_quarto.local.yml\n\n\n\n\nこのテンプレート集は README.md を参考に作成しています"
+  },
+  {
+    "objectID": "content3.html#基本的な構造",
+    "href": "content3.html#基本的な構造",
+    "title": "Content3",
+    "section": "",
+    "text": "project:\n  type: website          # website, book, blog, presentation, article\n  output-dir: docs       # 出力ディレクトリ\n\nwebsite:\n  title: \"サイトタイトル\"\n  navbar:\n    background: dark\n\nformat:\n  html:\n    theme: spacelab\n    toc: true\n    code-fold: true"
+  },
+  {
+    "objectID": "content3.html#プロジェクト種類",
+    "href": "content3.html#プロジェクト種類",
+    "title": "Content3",
+    "section": "",
+    "text": "type\n説明\n\n\n\n\nwebsite\n静的ウェブサイト（_site）\n\n\nbook\n書籍（_book）\n\n\nblog\nブログ\n\n\npresentation\nスライドショー\n\n\narticle\n論文/記事"
+  },
+  {
+    "objectID": "content3.html#html出力",
+    "href": "content3.html#html出力",
+    "title": "Content3",
+    "section": "",
+    "text": "format:\n  html:\n    toc: true\n    toc-depth: 3\n    code-fold: true\n    code-link: true\n    highlight-style: github\n    theme: [cosmo, bootstrap]\n    mathjax: auto\n    lang: ja\n    navbar:\n      background: primary\n      left:\n        - href: index.qmd\n          text: Home"
+  },
+  {
+    "objectID": "content3.html#pdf出力",
+    "href": "content3.html#pdf出力",
+    "title": "Content3",
+    "section": "",
+    "text": "format:\n  pdf:\n    documentclass: article\n    classoption: [draft, oneside]\n    geometry:\n      - margin=1in\n      - top=1.5in\n    mainfont: \"Noto Serif CJK JP\"\n    sansfont: \"Noto Sans CJK JP\"\n    monofont: \"Source Han Code JP\"\n    fontsize: 11pt\n    number-sections: true"
+  },
+  {
+    "objectID": "content3.html#複数形式同時出力",
+    "href": "content3.html#複数形式同時出力",
+    "title": "Content3",
+    "section": "",
+    "text": "format:\n  html:\n    toc: true\n  pdf:\n    documentclass: report\n  docx:\n    reference-doc: template.docx"
+  },
+  {
+    "objectID": "content3.html#word出力",
+    "href": "content3.html#word出力",
+    "title": "Content3",
+    "section": "",
+    "text": "format:\n  docx:\n    reference-doc: my-template.docx\n    toc: true\n    toc-depth: 2"
+  },
+  {
+    "objectID": "content3.html#reveal.js-スライド",
+    "href": "content3.html#reveal.js-スライド",
+    "title": "Content3",
+    "section": "",
+    "text": "project:\n  type: presentation\n\nformat:\n  revealjs:\n    theme: simple\n    transition: slide\n    slide-number: c/t\n    code-fold: true\n    embed-resources: true"
+  },
+  {
+    "objectID": "content3.html#ウェブサイト設定",
+    "href": "content3.html#ウェブサイト設定",
+    "title": "Content3",
+    "section": "",
+    "text": "project:\n  type: website\n  output-dir: docs\n\nwebsite:\n  title: \"私のウェブサイト\"\n  description: \"サイトの説明\"\n  navbar:\n    background: dark\n    search: true\n    left:\n      - href: index.qmd\n        text: Home\n      - href: about.qmd\n        text: About\n    right:\n      - icon: github\n        href: https://github.com/username\n  footer: \"© 2026 名前\"\n  open-graph: true"
+  },
+  {
+    "objectID": "content3.html#ブログ設定",
+    "href": "content3.html#ブログ設定",
+    "title": "Content3",
+    "section": "",
+    "text": "project:\n  type: website\n\nwebsite:\n  title: \"マイブログ\"\n  navbar:\n    background: dark\n\nblog:\n  post-date-format: \"yyyy年MM月dd日\"\n\nformat:\n  html:\n    theme: [cosmo, darkly]"
+  },
+  {
+    "objectID": "content3.html#書籍プロジェクト",
+    "href": "content3.html#書籍プロジェクト",
+    "title": "Content3",
+    "section": "",
+    "text": "project:\n  type: book\n\nbook:\n  title: \"私の本\"\n  author: \"名前\"\n  chapters:\n    - index.qmd\n    - 01-intro.qmd\n    - 02-method.qmd\n    - conclusion.qmd\n  toc: true\n  downloads: [pdf, epub]"
+  },
+  {
+    "objectID": "content3.html#デフォルト設定",
+    "href": "content3.html#デフォルト設定",
+    "title": "Content3",
+    "section": "",
+    "text": "defaults:\n  format:\n    html:\n      theme: flatly\n      toc: true\n      code-fold: true\n  execute:\n    echo: true\n    warning: false"
+  },
+  {
+    "objectID": "content3.html#変数を使う",
+    "href": "content3.html#変数を使う",
+    "title": "Content3",
+    "section": "",
+    "text": "# _quarto.yml\nvars:\n  author: \"名前\"\n  email: \"mail@example.com\"\n---\n# .qmd 内\n著者: ?var:author\nメール: ?var:email"
+  },
+  {
+    "objectID": "content3.html#リソース指定",
+    "href": "content3.html#リソース指定",
+    "title": "Content3",
+    "section": "",
+    "text": "project:\n  type: website\n  resources:\n    - \"images/*\"\n    - \"data/*.csv\"\n    - \"style.css\""
+  },
+  {
+    "objectID": "content3.html#フィルター",
+    "href": "content3.html#フィルター",
+    "title": "Content3",
+    "section": "",
+    "text": "filters:\n  - adjustbox\n  - \"quarto-diagrams\"  # Mermaid"
+  },
+  {
+    "objectID": "content3.html#学術論文pdf-html",
+    "href": "content3.html#学術論文pdf-html",
+    "title": "Content3",
+    "section": "",
+    "text": "title: \"論文タイトル\"\nauthor:\n  - name: 名前\n    affiliation: 大学\ndate: today\nbibliography: references.bib\n\nproject:\n  type: article\n\nformat:\n  html:\n    toc: true\n    number-sections: true\n  pdf:\n    documentclass: article\n    geometry: margin=1in\n    number-sections: true"
+  },
+  {
+    "objectID": "content3.html#tips",
+    "href": "content3.html#tips",
+    "title": "Content3",
+    "section": "",
+    "text": "ポイント\nメモ\n\n\n\n\nファイル名は _quarto.yml\nアンダースコア始まり\n\n\nインデントはスペース2つ\nYAML惯例\n\n\nコメントは #\n\n\n\nローカル上書き\n_quarto.local.yml\n\n\n\n\nこのテンプレート集は README.md を参考に作成しています"
   },
   {
     "objectID": "content5.html",
     "href": "content5.html",
     "title": "Content5",
     "section": "",
-    "text": "1 My Quarto Project\n\n1.0.1 テンプレート集\n\n\n\n\n工事中"
+    "text": "このページでは、.qmd ファイルを 構造化 し、複数の出力形式に対応 するためのテンプレートを紹介します。\n相互参照、Callouts、文献管理、Front Matter 上書きなど、実践的なパターンをまとめています。\n\n\n\nQuarto では図・表・数式・節に自動でIDを振り、相互参照できます。\n\n\n---\ntitle: \"相互参照デモ\"\nformat: html\nnumber-sections: true\n---\n\n# 実験結果\n\n@fig-plot に実験結果を示します。\n平均値は @tbl-stats の通りです。\n\n{verbatim}\n\n::: {.cell}\n::: {.cell-output-display}\n![実験結果の分布](content5_files/figure-html/fig-plot-1.png){#fig-plot width=672}\n:::\n:::\n\n\n| 統計量 | 値 |\n|--------|-----|\n| 平均   | -0.1047564 |\n| 標準偏差 | 1.0394798 |\n\n: 基本統計量 {#tbl-stats}\n\n詳細は @sec-analysis で解説します。\n\n## 分析 {#sec-analysis}\n\nここに分析内容を記述します。\n\n### 実行結果\n\n`@fig-hist` にデータの分布を示します。\n\n\n::: {.cell}\n::: {.cell-output-display}\n![正規乱数の分布](content5_files/figure-html/fig-hist-1.png){#fig-hist width=672}\n:::\n:::\n\n\n`@tbl-summary` から基本統計量を確認できます。\n\n| 統計量 | 値 |\n|--------|-----|\n| 標本サイズ | 100 |\n| 平均 | 0.083 |\n| 標準偏差 | 1.03 |\n| 中央値 | 0.071 |\n\n: 基本統計量一覧 {#tbl-summary}\n\n### 参照構文一覧\n\n| 対象 | ラベル | 参照構文 | 表示例 |\n|------|--------|----------|--------|\n| 図 | `#| label: fig-xxx` | `@fig-xxx` | 図 1 |\n| 表 | `{#tbl-xxx}` | `@tbl-xxx` | 表 1 |\n| 節 | `{#sec-xxx}` | `@sec-xxx` | 節 2.1 |\n| 数式 | `{#eq-xxx}` | `@eq-xxx` | 式 1 |\n| ラインブロック | `{#lst-xxx}` | `@lst-xxx` | リスト 1 |\n\n---\n\n## 2. マルチフォーマット出力\n\n1つの `.qmd` ファイルから **HTML / PDF / DOCX** を同時に出力するテンプレートです。\n\n### テンプレート\n\n```qmd\n---\ntitle: \"マルチフォーマットレポート\"\nformat:\n  html:\n    toc: true\n    code-fold: true\n    theme: cosmo\n  pdf:\n    documentclass: article\n    geometry: margin=1in\n    number-sections: true\n  docx:\n    toc: true\n    highlight-style: github\nexecute:\n  echo: true\n  warning: false\n---\n\n# レポートタイトル\n\nこのファイルは HTML・PDF・DOCX の3形式で出力されます。\n\n{verbatim}\n\n::: {.cell}\n::: {.cell-output-display}\n![散布図](content5_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n\n\n\n\nQuarto では format: キーの中で、出力先ごとにオプションを個別設定できます。\n---\nformat:\n  html:\n    # HTML でのみ折りたたみ表示\n    code-fold: true\n  pdf:\n    # PDF でのみフォント設定\n    mainfont: \"Noto Serif CJK JP\"\n---\n\n\n\n\n\nQuarto 独自のブロック要素を使って、リッチなレイアウトを実現します。\n\n\n::: {.callout-note}\n## メモ\nこれはノートです。\n:::\n\n::: {.callout-warning}\n## 注意\nこれは警告です。\n:::\n\n::: {.callout-important}\n## 重要\n重要な内容です。\n:::\n\n::: {.callout-tip}\n## ヒント\n役立つ情報です。\n:::\n\n::: {.callout-caution}\n## 注意喚起\n注意が必要です。\n:::\n\n\n\n\n\n\n\n\n\nノートメモ\n\n\n\nCallout は ::: で囲み、{.callout-種類} で種類を指定します。タイトルは ## タイトル で追加できます。\n\n\n\n\n\n\n\n\n警告注意\n\n\n\nコードブロック内で {verbatim} を使うと、Quarto の構文をそのまま表示できます。\n\n\n\n\n\n\n\n\n重要重要\n\n\n\nCallout は入れ子にできません。また、PDF 出力でもそのまま反映されます。\n\n\n\n\n\n\n\n\nヒントヒント\n\n\n\nappearance: simple や collapse: true などの追加オプションも指定可能です。\n\n\n\n\n\n:::: {.grid}\n::: {.g-col-6}\n左カラムの内容\n:::\n::: {.g-col-6}\n右カラムの内容\n:::\n::::\n\n\n\n::: {.panel-tabset}\n## R\nR のコード例\n\n## Python\nPython のコード例\n:::\n\n\n\n\nヒストグラム散布図\n\n\n\n\nコード\nhist(rnorm(100), col = \"steelblue\", main = \"R: ヒストグラム\")\n\n\n\n\n\n\n\n\n\n\n\n\n\nコード\nplot(mtcars$wt, mtcars$mpg, col = \"tomato\", pch = 19,\n     xlab = \"Weight\", ylab = \"MPG\", main = \"R: 散布図\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nQuarto は BibTeX / CSL-JSON 形式の文献ファイルをサポートし、@citekey で本文中に引用を挿入できます。\n\n\n---\ntitle: \"文献管理デモ\"\nbibliography: references.bib\ncitation: true\nlink-citations: true\nformat: html\n---\n\n## 導入\n\nQuarto は @quarto2024 で紹介されているように、\n再現可能なドキュメント生成が可能です。\n\nまた @wickham2019 の設計思想に基づいた\nワークフローが推奨されています。\n\n## 参考文献\n\n\n\n@book{wickham2019,\n  title = {R Packages},\n  author = {Hadley Wickham},\n  year = {2019},\n  publisher = {O'Reilly Media}\n}\n\n@online{quarto2024,\n  title = {Quarto Documentation},\n  author = {Posit Software},\n  year = {2024},\n  url = {https://quarto.org/docs/}\n}\n\n\n\n現在の _quarto.yml には bibliography の設定はありません。必要に応じて追記します：\n# _quarto.yml に追加\nbibliography: references.bib\nlink-citations: true\n\n\n\n\n\n.qmd ファイル単位で _quarto.yml の設定をオーバーライドするパターン集です。\n\n\nファイルの YAML front matter に記述した値は、_quarto.yml の該当値を上書きします。\n\n\n\n\n\n\n目的\n_quarto.yml\n.qmd Front Matter\n\n\n\n\nテーマ変更\ntheme: spacelab\ntheme: darkly\n\n\n目次制御\ntoc: true\ntoc: false\n\n\nコード表示\ncode-fold: true\ncode-fold: show（初期表示）\n\n\n実行制御\necho: true\necho: false / eval: false\n\n\n個別CSS\n（なし）\ncss: custom-styles.css\n\n\n言語切替\nlang: ja\nlang: en\n\n\nPDF専用設定\ndocumentclass: article\ndocumentclass: report\n\n\n\n\n\n\nこのページ（content5）では custom-styles.css を適用しています。_quarto.yml で styles.css がデフォルト指定されていますが、front matter で上書きしています。\n---\n# content5.qmd の front matter\nformat:\n  html:\n    css: custom-styles.css   # styles.css を上書き\n  pdf:\n    documentclass: article\n    papersize: a4\n---\n\n\n\n---\n# このファイルではコードを表示するが実行しない\nexecute:\n  echo: true\n  eval: false\n---\n\n\n\n\n\n\nContent3 — _quarto.yml テンプレート集\nContent4 — コード実行・動的コンテンツのテンプレート集"
+  },
+  {
+    "objectID": "content5.html#相互参照テンプレート",
+    "href": "content5.html#相互参照テンプレート",
+    "title": "Content5",
+    "section": "",
+    "text": "Quarto では図・表・数式・節に自動でIDを振り、相互参照できます。\n\n\n---\ntitle: \"相互参照デモ\"\nformat: html\nnumber-sections: true\n---\n\n# 実験結果\n\n@fig-plot に実験結果を示します。\n平均値は @tbl-stats の通りです。\n\n{verbatim}\n\n::: {.cell}\n::: {.cell-output-display}\n![実験結果の分布](content5_files/figure-html/fig-plot-1.png){#fig-plot width=672}\n:::\n:::\n\n\n| 統計量 | 値 |\n|--------|-----|\n| 平均   | -0.1047564 |\n| 標準偏差 | 1.0394798 |\n\n: 基本統計量 {#tbl-stats}\n\n詳細は @sec-analysis で解説します。\n\n## 分析 {#sec-analysis}\n\nここに分析内容を記述します。\n\n### 実行結果\n\n`@fig-hist` にデータの分布を示します。\n\n\n::: {.cell}\n::: {.cell-output-display}\n![正規乱数の分布](content5_files/figure-html/fig-hist-1.png){#fig-hist width=672}\n:::\n:::\n\n\n`@tbl-summary` から基本統計量を確認できます。\n\n| 統計量 | 値 |\n|--------|-----|\n| 標本サイズ | 100 |\n| 平均 | 0.083 |\n| 標準偏差 | 1.03 |\n| 中央値 | 0.071 |\n\n: 基本統計量一覧 {#tbl-summary}\n\n### 参照構文一覧\n\n| 対象 | ラベル | 参照構文 | 表示例 |\n|------|--------|----------|--------|\n| 図 | `#| label: fig-xxx` | `@fig-xxx` | 図 1 |\n| 表 | `{#tbl-xxx}` | `@tbl-xxx` | 表 1 |\n| 節 | `{#sec-xxx}` | `@sec-xxx` | 節 2.1 |\n| 数式 | `{#eq-xxx}` | `@eq-xxx` | 式 1 |\n| ラインブロック | `{#lst-xxx}` | `@lst-xxx` | リスト 1 |\n\n---\n\n## 2. マルチフォーマット出力\n\n1つの `.qmd` ファイルから **HTML / PDF / DOCX** を同時に出力するテンプレートです。\n\n### テンプレート\n\n```qmd\n---\ntitle: \"マルチフォーマットレポート\"\nformat:\n  html:\n    toc: true\n    code-fold: true\n    theme: cosmo\n  pdf:\n    documentclass: article\n    geometry: margin=1in\n    number-sections: true\n  docx:\n    toc: true\n    highlight-style: github\nexecute:\n  echo: true\n  warning: false\n---\n\n# レポートタイトル\n\nこのファイルは HTML・PDF・DOCX の3形式で出力されます。\n\n{verbatim}\n\n::: {.cell}\n::: {.cell-output-display}\n![散布図](content5_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n\n\n\n\nQuarto では format: キーの中で、出力先ごとにオプションを個別設定できます。\n---\nformat:\n  html:\n    # HTML でのみ折りたたみ表示\n    code-fold: true\n  pdf:\n    # PDF でのみフォント設定\n    mainfont: \"Noto Serif CJK JP\"\n---"
+  },
+  {
+    "objectID": "content5.html#div-callouts-layout",
+    "href": "content5.html#div-callouts-layout",
+    "title": "Content5",
+    "section": "",
+    "text": "Quarto 独自のブロック要素を使って、リッチなレイアウトを実現します。\n\n\n::: {.callout-note}\n## メモ\nこれはノートです。\n:::\n\n::: {.callout-warning}\n## 注意\nこれは警告です。\n:::\n\n::: {.callout-important}\n## 重要\n重要な内容です。\n:::\n\n::: {.callout-tip}\n## ヒント\n役立つ情報です。\n:::\n\n::: {.callout-caution}\n## 注意喚起\n注意が必要です。\n:::\n\n\n\n\n\n\n\n\n\nノートメモ\n\n\n\nCallout は ::: で囲み、{.callout-種類} で種類を指定します。タイトルは ## タイトル で追加できます。\n\n\n\n\n\n\n\n\n警告注意\n\n\n\nコードブロック内で {verbatim} を使うと、Quarto の構文をそのまま表示できます。\n\n\n\n\n\n\n\n\n重要重要\n\n\n\nCallout は入れ子にできません。また、PDF 出力でもそのまま反映されます。\n\n\n\n\n\n\n\n\nヒントヒント\n\n\n\nappearance: simple や collapse: true などの追加オプションも指定可能です。\n\n\n\n\n\n:::: {.grid}\n::: {.g-col-6}\n左カラムの内容\n:::\n::: {.g-col-6}\n右カラムの内容\n:::\n::::\n\n\n\n::: {.panel-tabset}\n## R\nR のコード例\n\n## Python\nPython のコード例\n:::\n\n\n\n\nヒストグラム散布図\n\n\n\n\nコード\nhist(rnorm(100), col = \"steelblue\", main = \"R: ヒストグラム\")\n\n\n\n\n\n\n\n\n\n\n\n\n\nコード\nplot(mtcars$wt, mtcars$mpg, col = \"tomato\", pch = 19,\n     xlab = \"Weight\", ylab = \"MPG\", main = \"R: 散布図\")"
+  },
+  {
+    "objectID": "content5.html#文献管理-引用",
+    "href": "content5.html#文献管理-引用",
+    "title": "Content5",
+    "section": "",
+    "text": "Quarto は BibTeX / CSL-JSON 形式の文献ファイルをサポートし、@citekey で本文中に引用を挿入できます。\n\n\n---\ntitle: \"文献管理デモ\"\nbibliography: references.bib\ncitation: true\nlink-citations: true\nformat: html\n---\n\n## 導入\n\nQuarto は @quarto2024 で紹介されているように、\n再現可能なドキュメント生成が可能です。\n\nまた @wickham2019 の設計思想に基づいた\nワークフローが推奨されています。\n\n## 参考文献\n\n\n\n@book{wickham2019,\n  title = {R Packages},\n  author = {Hadley Wickham},\n  year = {2019},\n  publisher = {O'Reilly Media}\n}\n\n@online{quarto2024,\n  title = {Quarto Documentation},\n  author = {Posit Software},\n  year = {2024},\n  url = {https://quarto.org/docs/}\n}\n\n\n\n現在の _quarto.yml には bibliography の設定はありません。必要に応じて追記します：\n# _quarto.yml に追加\nbibliography: references.bib\nlink-citations: true"
+  },
+  {
+    "objectID": "content5.html#front-matter-上書き",
+    "href": "content5.html#front-matter-上書き",
+    "title": "Content5",
+    "section": "",
+    "text": ".qmd ファイル単位で _quarto.yml の設定をオーバーライドするパターン集です。\n\n\nファイルの YAML front matter に記述した値は、_quarto.yml の該当値を上書きします。\n\n\n\n\n\n\n目的\n_quarto.yml\n.qmd Front Matter\n\n\n\n\nテーマ変更\ntheme: spacelab\ntheme: darkly\n\n\n目次制御\ntoc: true\ntoc: false\n\n\nコード表示\ncode-fold: true\ncode-fold: show（初期表示）\n\n\n実行制御\necho: true\necho: false / eval: false\n\n\n個別CSS\n（なし）\ncss: custom-styles.css\n\n\n言語切替\nlang: ja\nlang: en\n\n\nPDF専用設定\ndocumentclass: article\ndocumentclass: report\n\n\n\n\n\n\nこのページ（content5）では custom-styles.css を適用しています。_quarto.yml で styles.css がデフォルト指定されていますが、front matter で上書きしています。\n---\n# content5.qmd の front matter\nformat:\n  html:\n    css: custom-styles.css   # styles.css を上書き\n  pdf:\n    documentclass: article\n    papersize: a4\n---\n\n\n\n---\n# このファイルではコードを表示するが実行しない\nexecute:\n  echo: true\n  eval: false\n---"
+  },
+  {
+    "objectID": "content5.html#参考",
+    "href": "content5.html#参考",
+    "title": "Content5",
+    "section": "",
+    "text": "Content3 — _quarto.yml テンプレート集\nContent4 — コード実行・動的コンテンツのテンプレート集"
   },
   {
     "objectID": "notation.html",

@@ -16,7 +16,7 @@ This repository serves as a memo/cheat sheet for Quarto project configuration �
 
 ## Features
 
-- **Comprehensive `_quarto.yml` reference** — all keys explained with examples ([docs/_quarto-yml-reference.md](docs/_quarto-yml-reference.md))
+- **Comprehensive `_quarto.yml` reference** — all keys explained with examples ([_quarto-yml-reference.md](_quarto-yml-reference.md))
 - **Practical configuration examples** — academic paper, blog, Reveal.js slides
 - **Dual output** — HTML + PDF from a single source
 - **CI/CD ready** — GitHub Actions auto-builds and deploys to GitHub Pages
@@ -45,7 +45,7 @@ quarto render
 # Output goes to ./docs/
 ```
 
-For detailed `_quarto.yml` reference, see [docs/_quarto-yml-reference.md](docs/_quarto-yml-reference.md).
+For detailed `_quarto.yml` reference, see [_quarto-yml-reference.md](_quarto-yml-reference.md).
 
 ## Contributing
 
