@@ -1,0 +1,768 @@
+---
+title: "_quarto.yml 記法リファレンス"
+subtitle: "Quarto プロジェクト設定の体系化リファレンス"
+author: "watanabe3tipapa"
+date: last-modified
+description: |
+  Quarto の _quarto.yml に書ける実在のキーを、project / format / website / book / execute などに分類して体系的に解説。
+lang: ja
+toc: true
+toc-depth: 3
+number-sections: true
+highlight-style: github
+code-fold: show
+---
+
+# _quarto.yml とは？
+
+`_quarto.yml` は Quarto プロジェクトの**ルートディレクトリ**に置く **YAML 設定ファイル**です。プロジェクト全体の設定をここで一元管理できます。
+
+```
+my-project/
+├── _quarto.yml          ← プロジェクト全体の設定（core）
+├── index.qmd
+├── chapter1.qmd
+└── references.bib
+```
+
+::: {.callout-note}
+## 名前のルール
+
+ファイル名は **アンダースコア始まり**（`_quarto.yml`）です。ハイフン（`-quarto.yml`）ではありません。YAML のインデントはスペース2つが慣例です。
+:::
+
+## 設定ファイルの役割分担
+
+メタデータは `_quarto.yml` → `_metadata.yml` → ドキュメント front matter の順に**マージ**され、下位ほど優先されます。
+
+| ファイル | 役割 | 優先度 |
+|---------|------|--------|
+| `_quarto.yml` | プロジェクト全体のデフォルト | 低 |
+| `dir/_metadata.yml` | ディレクトリ単位のデフォルト | 中 |
+| `dir/document.qmd` | ドキュメント単位の設定 | 高 |
+
+例外は `format` です。ドキュメントの front matter で `format` を書く場合は、**レンダリングする形式の完全なリスト**を指定する必要があります。
+
+## ローカル設定
+
+`_quarto.yml.local`（または `_quarto.local.yml`）を作ると、バージョン管理に含めない**ローカル限定の設定**を書けます。
+
+```yaml
+# _quarto.local.yml（.gitignore 対象）
+execute:
+  cache: true
+```
+
+---
+
+# project キー
+
+プロジェクトの種類・レンダリング対象・出力先などを定義します。
+
+```yaml
+project:
+  type: website            # default / website / book / manuscript
+  output-dir: _site        # 出力ディレクトリ
+  render:
+    - "*.qmd"              # レンダリング対象
+    - "!drafts/"           # 除外（! で始まる）
+  execute-dir: file        # file / project（計算の作業ディレクトリ）
+  resources:
+    - CNAME                # 出力にコピーするリソース
+    - assets/
+  pre-render: script.R     # レンダリング前スクリプト
+  post-render: script.R    # レンダリング後スクリプト
+  preview:
+    port: 4200
+    browser: true
+```
+
+## `project.type` の種類
+
+| type | 説明 | デフォルト出力 |
+|------|------|---------------|
+| `default` | 単一/複数ドキュメント（記事など） | ファイルと同じ階層 |
+| `website` | 静的ウェブサイト | `_site` |
+| `book` | 書籍（複数章構成） | `_book` |
+| `manuscript` | 論文原稿 | `_manuscript` |
+
+::: {.callout-warning}
+## 誤った情報の訂正
+
+旧版では `article` / `blog` / `presentation` が `project.type` と書かれていましたが、これらは**実在しません**。論文は `default`、ブログは `website`（listing を併用）、スライドは `format: revealjs` で実現します。
+:::
+
+## `project.render` の例
+
+```yaml
+project:
+  type: website
+  render:
+    - "*.qmd"             # 全 qmd
+    - "!private/*.qmd"    # private/ 配下を除外
+    - "!draft.qmd"        # 特定ファイルを除外
+```
+
+## `project.resources`
+
+`assets/` など、qmd から直接参照されないファイルを出力先へコピーします。
+
+```yaml
+project:
+  resources:
+    - "images/*"
+    - "data/*.csv"
+    - "CNAME"
+```
+
+---
+
+# 共通メタデータ
+
+`format` に依存しない、全形式に共通するメタデータです。
+
+```yaml
+title: "私のレポート"
+subtitle: "サブタイトル"
+author:
+  - name: 浦島太郎
+    orcid: 0000-0000-0000-0000
+    affiliation: XYZ大学
+  - name: 此花姫子
+    affiliation: ABC大学
+date: today                 # today / last-modified / "2025-01-01"
+lang: ja                    # 言語（ja, en など）
+description: "概要説明文"
+keywords: [Quarto, YAML]
+abstract: "アブストラクト本文"
+bibliography: references.bib
+number-sections: true
+toc: true
+```
+
+::: {.callout-tip}
+## date の指定方法
+
+`today` はレンダリング日、`last-modified` は最終更新日、固定日付は `"YYYY-MM-DD"` で指定します。
+:::
+
+---
+
+# format キー
+
+出力形式ごとの詳細設定です。`_quarto.yml` に複数形式を書くと、**1つのソースから同時出力**できます。
+
+## 基本形
+
+```yaml
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+```
+
+## HTML 出力の主なオプション
+
+```yaml
+format:
+  html:
+    # テーマ
+    theme: cosmo                       # 名前 or [light, dark] or [cosmo, custom.scss]
+    css: styles.css                    # 追加 CSS
+    # 目次
+    toc: true
+    toc-depth: 3
+    toc-location: left                 # left / right
+    number-sections: true
+    # コード
+    code-fold: true                    # 折りたたみ
+    code-tools: true
+    code-link: true
+    code-copy: true
+    highlight-style: github
+    # 数学
+    html-math-method: katex            # katex / mathjax
+    # レイアウト・メタ
+    page-layout: article               # full / article / custom
+    lang: ja
+    embed-resources: true              # 単一 HTML に埋め込み
+    output-file: report.html           # 出力ファイル名
+```
+
+### theme の指定パターン
+
+```yaml
+format:
+  html:
+    theme: cosmo                        # 単一テーマ
+    theme:
+      light: [flatly, custom.scss]      # ライト/ダーク切り替え
+      dark: [darkly, custom.scss]
+    theme: [cosmo, custom.scss]         # ベース + カスタム SCSS（カスケード）
+```
+
+## PDF 出力の主なオプション
+
+```yaml
+format:
+  pdf:
+    documentclass: article              # article / report / book / memoir
+    classoption: [oneside, draft]
+    geometry: "margin=1in"
+    fontsize: 11pt
+    mainfont: "Noto Serif CJK JP"
+    sansfont: "Noto Sans CJK JP"
+    monofont: "Source Han Code JP"
+    number-sections: true
+    keep-tex: true                      # .tex を残す
+    include-in-header: |
+      \usepackage{fancyhdr}
+      \pagestyle{fancy}
+```
+
+::: {.callout-note}
+## PDF に必要なもの
+
+PDF 出力には **LaTeX 環境**（TinyTeX / TeX Live など）が必要です。日本語 PDF の場合は CJK フォントと `\usepackage{luatexja}` などの設定も必要になることがあります。
+:::
+
+## Word / PowerPoint / スライド
+
+```yaml
+format:
+  docx:
+    reference-doc: template.docx        # Word テンプレート
+    toc: true
+  pptx:
+    reference-doc: template.pptx
+  revealjs:
+    theme: simple
+    transition: slide
+    slide-number: c/t
+    code-fold: true
+    embed-resources: true
+```
+
+## 複数形式の同時出力
+
+```yaml
+format:
+  html:
+    toc: true
+    code-fold: true
+  pdf:
+    documentclass: report
+    geometry: margin=1in
+  docx:
+    reference-doc: template.docx
+```
+
+---
+
+# website キー
+
+`project.type: website` のときに使うサイト全体の設定です。
+
+```yaml
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "私のウェブサイト"
+  description: "サイトの説明"
+  site-url: "https://example.com"
+  image: ogp.png                       # SNS カード用サムネイル
+  favicon: favicon.png
+  open-graph: true
+  twitter-card:
+    creator: "@username"
+  search: true
+  page-navigation: true                # 前後記事リンク
+  back-to-top-navigation: true
+  google-analytics: "G-XXXXXXXXXX"
+  repo-url: "https://github.com/user/repo"
+  repo-actions: [edit, issue]          # Edit this page 等
+```
+
+## navbar
+
+```yaml
+website:
+  navbar:
+    background: dark
+    search: true
+    pinned: true
+    left:
+      - href: index.qmd
+        text: Home
+      - text: ドロップダウン
+        menu:
+          - text: ページA
+            href: page-a.qmd
+          - text: ページB
+            href: page-b.qmd
+    right:
+      - icon: github
+        href: https://github.com/user
+      - icon: rss
+        href: index.xml
+```
+
+## sidebar / page-footer / search
+
+```yaml
+website:
+  sidebar:
+    title: "ナビゲーション"
+    style: docked                # docked / floating
+    contents:
+      - text: はじめに
+        href: intro.qmd
+      - text: チュートリアル
+        contents:
+          - text: Step 1
+            href: tutorial1.qmd
+  page-footer:
+    left: "© 2026 名前"
+    center: "Built with Quarto"
+    right:
+      - icon: github
+        href: https://github.com/user
+  search:
+    location: navbar            # navbar / sidebar
+    type: overlay               # overlay / textbox
+```
+
+## ブログ（listing + feed）
+
+Quarto に `blog:` キーは**ありません**。ブログは `website` + **listing** で実現します。
+
+```yaml
+website:
+  title: "マイブログ"
+  site-url: "https://example.com"    # feed 生成に必須
+  description: "ブログの説明"
+  navbar:
+    right:
+      - icon: rss
+        href: index.xml
+```
+
+```yaml
+# index.qmd の front matter（記事一覧）
+---
+title: "ブログ"
+listing:
+  contents: posts
+  type: default          # default / grid / table / custom
+  sort: "date desc"
+  feed: true
+---
+```
+
+listing のオプションは `type: grid` でカード表示、`type: table` で表表示、`grid-columns: 3` で列数を指定できます。
+
+---
+
+# book キー
+
+`project.type: book` のときに使う書籍専用設定です。
+
+```yaml
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "私の本"
+  subtitle: "サブタイトル"
+  author: "浦島太郎"
+  date: "2025-01-01"
+  cover-image: cover.png
+  downloads: [pdf, epub]           # ダウンロードボタン
+  sharing: [twitter, facebook]
+  chapters:
+    - index.qmd
+    - part: intro.qmd              # パート見出し
+    - 01-introduction.qmd
+    - 02-methodology.qmd
+    - 03-results.qmd
+    - conclusion.qmd
+    - references.qmd
+    - appendix:
+        - app-a.qmd
+        - app-b.qmd
+```
+
+---
+
+# execute キー（コード実行）
+
+コードチャンクの実行方法を制御します。`_quarto.yml` に書くと全ファイル共通、`#|` コメントでチャンク単位に上書きできます。
+
+```yaml
+execute:
+  echo: true               # コード表示
+  eval: true               # 実行するか
+  include: true            # 出力を含めるか
+  warning: false           # 警告を表示しない
+  message: false           # メッセージを非表示
+  error: false             # エラー時は実行停止
+  cache: true              # 結果をキャッシュ
+  freeze: auto             # true / auto / false
+  fig-width: 6             # 図の幅（インチ）
+  fig-height: 4
+  fig-cap: "図のキャプション"
+  fig-align: center
+```
+
+::: {.callout-note}
+## freeze とは？
+
+`freeze: true` は **プロジェクト再レンダリング時に計算済み出力を再利用**します。`freeze: auto` はソースが変わったときだけ再実行します。結果は `_freeze/` に保存されます。
+:::
+
+## チャンク単位の上書き
+
+````qmd
+```{{r}}
+#| echo: false
+#| eval: true
+#| fig-cap: "ヒストグラム"
+hist(rnorm(100))
+```
+````
+
+::: {.callout-tip}
+## よく使うチャンクオプション
+
+| オプション | 説明 |
+|-----------|------|
+| `echo` | コード表示の有無 |
+| `eval` | 実行するか |
+| `include` | 出力全体の包含/除外 |
+| `fig-cap` / `fig-width` / `fig-height` | 図の設定 |
+| `column: margin` | 余白に配置 |
+| `out-width: 80%` | 出力幅制限 |
+| `cache` | キャッシュ制御 |
+:::
+
+---
+
+# vars / filters / resources
+
+## vars（変数）
+
+`_quarto.yml` で定義した変数を本文中で `{{{< var name >}}}` として参照できます。
+
+```yaml
+# _quarto.yml
+vars:
+  author: "浦島太郎"
+  email: "taro@example.com"
+  org: "XYZ大学"
+  year: 2025
+```
+
+```qmd
+著者: {{{< var author >}}}
+所属: {{{< var org >}}}
+メール: {{{< var email >}}}
+```
+
+## filters（フィルター）
+
+Lua フィルターを追加できます。外部フィルターは `quarto add` で拡張機能として導入し、`_extensions/` に配置します。
+
+```yaml
+filters:
+  - my-filter.lua
+  - https://raw.githubusercontent.com/user/repo/main/filter.lua
+```
+
+```bash
+# 拡張機能の導入（quarto add）
+quarto add quarto-ext/fontawesome
+```
+
+## resources（リソース）
+
+`project.resources` で出力先にコピーするファイルを指定します（前述）。
+
+---
+
+# 条件付き設定（profiles）
+
+プロジェクト・プロファイルで環境ごとに設定を切り替えられます。
+
+```yaml
+# _quarto.yml
+project:
+  type: website
+execute:
+  freeze: true
+```
+
+```yaml
+# _quarto-production.yml（プロファイル定義）
+execute:
+  freeze: false
+```
+
+```bash
+# プロファイルを指定してレンダリング
+QUARTO_PROFILE=production quarto render
+# または
+quarto render --profile production
+```
+
+デフォルトのプロファイルを指定することもできます。
+
+```yaml
+profile:
+  default: development
+```
+
+---
+
+# 相互参照・引用
+
+## 相互参照（cross-reference）
+
+図・表・数式・節・リストに自動でIDが振られ、`@fig-` などで参照できます。
+
+````qmd
+@fig-hist に分布を示します。平均値は @tbl-stats の通りです。詳細は @sec-analysis で解説します。
+
+```{{r}}
+#| label: fig-hist
+#| fig-cap: "正規乱数の分布"
+hist(rnorm(100))
+```
+
+: 基本統計量 {#tbl-stats}
+
+## 分析 {#sec-analysis}
+````
+
+表のセル内で値を動的に埋める場合はインラインコードを使います（例: <code>r mean(x)</code>）。
+
+| 対象 | ラベル | 参照構文 |
+|------|--------|----------|
+| 図 | `#| label: fig-xxx` | `@fig-xxx` |
+| 表 | `{#tbl-xxx}` | `@tbl-xxx` |
+| 節 | `{#sec-xxx}` | `@sec-xxx` |
+| 数式 | `{#eq-xxx}` | `@eq-xxx` |
+| コード | `{#lst-xxx}` | `@lst-xxx` |
+
+## 引用（bibliography）
+
+```yaml
+title: "文献管理デモ"
+bibliography: references.bib
+csl: apa.csl
+link-citations: true
+citation-location: margin
+```
+
+```bib
+@book{wickham2019,
+  title = {R Packages},
+  author = {Hadley Wickham},
+  year = {2019},
+  publisher = {O'Reilly Media}
+}
+```
+
+本文では `@wickham2019` のように引用キーで参照します。
+
+```qmd
+Quarto は @wickham2019 で紹介されているように、再現可能なドキュメント生成が可能です。
+```
+
+---
+
+# 実践テンプレート集
+
+## 1. 学術論文（HTML + PDF）
+
+```yaml
+title: "機械学習による天気予測"
+author:
+  - name: 浦島太郎
+    affiliation: XYZ大学
+date: today
+bibliography: references.bib
+link-citations: true
+
+project:
+  type: default
+
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+  pdf:
+    documentclass: article
+    geometry: margin=1in
+    number-sections: true
+    keep-tex: true
+
+execute:
+  echo: false
+  warning: false
+```
+
+## 2. ブログサイト
+
+```yaml
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "データサイエンス日記"
+  description: "Python と R によるデータ分析メモ"
+  site-url: "https://example.com"
+  navbar:
+    background: dark
+    left:
+      - href: index.qmd
+        text: Home
+    right:
+      - icon: github
+        href: https://github.com/username
+      - icon: rss
+        href: index.xml
+  open-graph: true
+
+format:
+  html:
+    theme: cosmo
+    code-fold: true
+```
+
+## 3. スライド発表（Reveal.js）
+
+```yaml
+title: "研究発表タイトル"
+author: "浦島太郎"
+date: "2025-01-15"
+
+format:
+  revealjs:
+    theme: simple
+    transition: slide
+    slide-number: c/t
+    code-fold: true
+    embed-resources: true
+```
+
+## 4. パラメータ化レポート
+
+```yaml
+---
+title: "パラメータ化レポート"
+format: html
+params:
+  n: 100
+  mean: 50
+  sd: 10
+---
+```
+
+```bash
+# パラメータを差し替えてレンダリング
+quarto render report.qmd -P n:500 -P mean:100
+```
+
+---
+
+# デバッグ・検証（実在コマンド）
+
+::: {.callout-warning}
+## 誤った情報の訂正
+
+旧版にあった `quarto check project` や `quarto config` は**存在しません**。実在するコマンドは以下です。
+:::
+
+```bash
+# インストール環境の確認
+quarto check
+
+# ドキュメントのメタデータを調査
+quarto inspect report.qmd
+
+# レンダリング（全ファイル / 指定ファイル）
+quarto render
+quarto render report.qmd
+
+# ライブプレビュー
+quarto preview
+
+# 公開（GH Pages / Netlify 等）
+quarto publish gh-pages
+
+# プロジェクト作成 / テンプレート
+quarto create-project myproj
+quarto create report.qmd --type doc
+
+# 拡張機能
+quarto add quarto-ext/fontawesome
+quarto use template
+
+# 便利情報
+quarto tools list        # TinyTeX 等のツール確認
+quarto pandoc --version  # 内蔵 Pandoc のバージョン
+```
+
+## 設定の確認
+
+```bash
+# _quarto.yml の検証（YAML エラー検出）
+quarto render --debug
+```
+
+---
+
+# チートシート（早見表）
+
+## キー一覧
+
+| キー | 場所 | 役割 |
+|------|------|------|
+| `project` | トップレベル | プロジェクト種別・出力・リソース |
+| `website` | トップレベル | サイトのナビ・SEO・検索 |
+| `book` | トップレベル | 書籍の章構成・目次 |
+| `format` | トップレベル | 出力形式ごとの詳細設定 |
+| `execute` | トップレベル | コード実行のデフォルト |
+| `vars` | トップレベル | 本文で使える変数 |
+| `filters` | トップレベル | Lua フィルター追加 |
+| `bibliography` | トップレベル | 文献ファイル |
+| `profile` | トップレベル | 環境別の条件付き設定 |
+| `resources` | `project` 配下 | 出力へのコピー対象 |
+
+## よく使う値
+
+| 内容 | 値 |
+|------|-----|
+| 出力ディレクトリ（website） | `_site` |
+| 日本語設定 | `lang: ja` |
+| 目次表示 | `toc: true` |
+| コード折りたたみ | `code-fold: true` |
+| ライト/ダーク | `theme: [flatly, darkly]` |
+| キャッシュ | `execute: cache: true` |
+| 再実行制御 | `execute: freeze: auto` |
+| SNS カード | `website: open-graph: true` |
+
+## 関連リンク
+
+- [Quarto 公式ドキュメント](https://quarto.org/docs/)
+- [Project Options（公式）](https://quarto.org/docs/reference/projects/options.html)
+- [Website Options（公式）](https://quarto.org/docs/reference/projects/websites.html)
+- [Q markdown 記法リファレンス](notation.html)
+- [テンプレート集](content3.html)

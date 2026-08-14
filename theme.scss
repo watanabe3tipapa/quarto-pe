@@ -1,0 +1,351 @@
+/*-- scss:defaults --*/
+
+// v2 — Neo-Brutalism
+// ベース: https://github.com/watanabe3tipapa/watanabe3tipapa.github.io/blob/main/html/styles.scss
+
+$primary:   #000000;
+$secondary: #292524;
+
+$body-bg:    #f6f6f4;
+$body-color: #000000;
+
+$font-family-sans-serif: 'Arial Black', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+$font-family-monospace:  'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+
+$headings-font-weight: 900;
+$headings-color: #000000;
+$headings-font-family: 'Arial Black', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+
+// Neo-brutalism palette
+$nb-black:        #333333;
+$nb-yellow:       #ffe14d;
+$nb-lime:         #9ef01a;
+$nb-blue:         #7ec8e3;
+$nb-salmon:       #ffadad;
+$nb-pink:         #ff2d75;
+$nb-bg:           #f6f6f4;
+
+// Navbar (black)
+$navbar-dark-color:       #ffffff;
+$navbar-dark-hover-color: $nb-yellow;
+$navbar-dark-active-color: $nb-yellow;
+$navbar-padding-y: 1rem;
+
+// Cards
+$card-border-radius: 0px;
+$card-border-color:  $nb-black;
+$card-bg:            #ffffff;
+$card-cap-bg:        #ffffff;
+$card-color:         $nb-black;
+
+// Links
+$link-color: $nb-black;
+$link-hover-color: $nb-pink;
+$link-decoration: none;
+$link-hover-decoration: none;
+
+// Code
+$code-color: $nb-black;
+$code-bg: $nb-yellow;
+
+// Borders
+$border-color: $nb-black;
+$border-radius: 0px;
+
+// Tables
+$table-color: $nb-black;
+$table-bg: #ffffff;
+$table-border-color: $nb-black;
+
+// Blockquotes
+$blockquote-color: $nb-black;
+
+/*-- scss:rules --*/
+
+// Base
+body {
+  background-color: $nb-bg;
+  color: $nb-black;
+  font-family: 'Arial Black', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+}
+
+// Links
+a {
+  color: $nb-black;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 3px solid $nb-pink;
+}
+
+a:hover {
+  color: $nb-pink;
+  border-bottom: 3px solid $nb-pink;
+}
+
+// Navbar
+.navbar {
+  background-color: $nb-black;
+  border-bottom: 4px solid $nb-yellow;
+  box-shadow: 0 4px 0 $nb-black;
+}
+
+.navbar .navbar-brand {
+  color: #ffffff;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  font-size: 1.1em;
+  border-bottom: none;
+}
+
+.navbar .navbar-nav .nav-link {
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  font-size: 0.85em;
+  border-bottom: none;
+  margin: 0 0.2rem;
+  padding: 0.3rem 0.6rem;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+  color: $nb-yellow;
+  background-color: $nb-black;
+  border-bottom: none;
+  box-shadow: inset 0 -4px 0 $nb-yellow;
+}
+
+.navbar .navbar-nav .nav-link.active {
+  color: $nb-yellow;
+  font-weight: 900;
+  border-bottom: 3px solid $nb-yellow;
+}
+
+.navbar .quarto-navbar-tools .quarto-navigation-tool {
+  color: #ffffff;
+}
+
+.navbar .quarto-navbar-tools .quarto-navigation-tool:hover {
+  color: $nb-yellow;
+}
+
+.navbar .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+// Dropdown
+.navbar .dropdown-menu {
+  background-color: #ffffff;
+  border: 3px solid $nb-black;
+  border-radius: 0;
+  box-shadow: 6px 6px 0 $nb-black;
+}
+
+.navbar .dropdown-item {
+  color: $nb-black;
+  font-weight: 700;
+  border-bottom: none;
+}
+
+.navbar .dropdown-item:hover {
+  color: $nb-pink;
+  background-color: $nb-yellow;
+  border-bottom: none;
+}
+
+// Headings
+h1, h2, h3, h4 {
+  font-family: 'Arial Black', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+  font-weight: 900;
+  color: $nb-black;
+}
+
+h1 {
+  font-size: 2.5em;
+  border: 4px solid $nb-black;
+  background-color: $nb-yellow;
+  padding: 0.5rem 1rem;
+  box-shadow: 8px 8px 0 $nb-black;
+  display: inline-block;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+h2 {
+  font-size: 1.7em;
+  border: 3px solid $nb-black;
+  background-color: $nb-blue;
+  padding: 0.4rem 0.9rem;
+  box-shadow: 6px 6px 0 $nb-black;
+  display: inline-block;
+  margin-top: 2.5rem;
+}
+
+h3 {
+  font-size: 1.35em;
+  font-weight: 900;
+  border-bottom: 3px solid $nb-black;
+  padding-bottom: 0.3rem;
+}
+
+// Cards
+.card {
+  border: 4px solid $nb-black;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 $nb-black;
+  background-color: #ffffff;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 0 0 0 4px $nb-black;
+}
+
+.card .card-body {
+  padding: 1.4rem;
+}
+
+.card .card-title {
+  font-weight: 900;
+  font-size: 1.2em;
+}
+
+.card .card-title a {
+  color: $nb-black;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.card .card-title a:hover {
+  color: $nb-pink;
+  border-bottom: none;
+}
+
+.card .card-text {
+  font-size: 0.95em;
+  font-weight: 700;
+  color: $nb-black;
+}
+
+// Code blocks
+div.sourceCode {
+  border: 3px solid $nb-black;
+  border-radius: 0;
+  background-color: #ffffff;
+  box-shadow: 5px 5px 0 $nb-black;
+}
+
+pre.sourceCode {
+  background-color: #ffffff;
+  font-size: 0.85em;
+}
+
+code {
+  background-color: $nb-yellow;
+  color: $nb-black;
+  padding: 0.15em 0.4em;
+  font-size: 0.85em;
+  border-radius: 0;
+  border: 2px solid $nb-black;
+}
+
+// Footer
+.page-footer {
+  border-top: 4px solid $nb-black;
+  font-size: 0.8em;
+  color: $nb-black;
+  background-color: $nb-bg;
+}
+
+// Callout blocks
+.callout {
+  border: 3px solid $nb-black !important;
+  border-radius: 0 !important;
+  box-shadow: 6px 6px 0 $nb-black;
+}
+
+// Blockquote
+blockquote {
+  border: 3px solid $nb-black;
+  border-left-width: 3px;
+  padding: 1rem;
+  color: $nb-black;
+  background-color: $nb-lime;
+}
+
+// Horizontal rule
+hr {
+  border-top: 4px solid $nb-black;
+  margin: 2rem 0;
+}
+
+// Table
+.table {
+  th {
+    border-top: 4px solid $nb-black;
+    font-weight: 900;
+    font-size: 0.85em;
+    background-color: $nb-yellow;
+  }
+  td {
+    border-top: 2px solid $nb-black;
+  }
+}
+
+// Search
+.quarto-search .search-input {
+  border-radius: 0;
+  border: 3px solid $nb-black;
+}
+
+// TOC
+#TOC {
+  border: 3px solid $nb-black;
+  background-color: #ffffff;
+  padding: 1rem;
+  box-shadow: 6px 6px 0 $nb-black;
+}
+
+#TOC a {
+  border-bottom: none;
+}
+
+// Figure captions / table captions
+.figure-caption, .table-caption {
+  font-weight: 700;
+  color: $nb-black;
+}
+
+// Listings (cards)
+.quarto-listing-card {
+  border: 4px solid $nb-black;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 $nb-black;
+  background-color: #ffffff;
+}
+
+// Tabset
+.nav-tabs .nav-link {
+  border: 3px solid $nb-black;
+  border-radius: 0;
+  color: $nb-black;
+  font-weight: 700;
+  margin-right: 0.4rem;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: $nb-yellow;
+  color: $nb-black;
+}
+
+.tab-content {
+  border: 3px solid $nb-black;
+  padding: 1rem;
+  background-color: #ffffff;
+}
+
+// Panel (grid columns) spacing
+.panel-grid {
+  row-gap: 2rem;
+}

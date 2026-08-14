@@ -1,60 +1,30 @@
-<!-- badges -->
-[![License](https://img.shields.io/github/license/watanabe3tipapa/quarto-pe.svg)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/watanabe3tipapa/quarto-pe.svg)](https://github.com/watanabe3tipapa/quarto-pe/stargazers)
-[![Last commit](https://img.shields.io/github/last-commit/watanabe3tipapa/quarto-pe/main.svg)](https://github.com/watanabe3tipapa/quarto-pe/commits/main)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Maintenance](https://img.shields.io/badge/Maintenance-Active-brightgreen.svg)](https://github.com/watanabe3tipapa/quarto-pe)
-[![Changelog](https://img.shields.io/badge/Changelog-Keep%20a%20Changelog-green.svg)](CHANGELOG.md)
-
-[English](README.md) | [日本語](README_ja.md)
-
 # quarto-pe
 
-Personal reference project for **Quarto `_quarto.yml` notation** and **Q markdown syntax**.
+Quarto の **`_quarto.yml` 記法** と **Q markdown 構文** をまとめたリファレンス・チートシートです。
 
-This repository serves as a memo/cheat sheet for Quarto project configuration — covering `project`, `format`, `defaults`, `book`, `website`, `filters`, `vars`, and practical examples.
+[English](README_EN.md)
 
-## Features
-
-- **Comprehensive `_quarto.yml` reference** — all keys explained with examples ([_quarto-yml-reference.md](_quarto-yml-reference.md))
-- **Practical configuration examples** — academic paper, blog, Reveal.js slides
-- **Dual output** — HTML + PDF from a single source
-- **CI/CD ready** — GitHub Actions auto-builds and deploys to GitHub Pages
-- **Custom domain support** — CNAME + .nojekyll configured
-
-## Contents
-
-| File | Description |
-|------|-------------|
-| `index.qmd` | Top page |
-| `content1.qmd` ~ `content5.qmd` | Content pages (Quarto notation examples) |
-| `notation.qmd` | Q markdown notation guide |
-| `signin.qmd` | Sign-in form demo |
-| `_quarto.yml` | Main project configuration |
-| `styles.css` / `custom-styles.css` | Custom styles |
-
-## Usage
+## 使い方
 
 ```bash
-# Preview locally
+# ローカルでプレビュー
 quarto preview
 
-# Render all files
+# 全ファイルをレンダリング（出力先: _site/）
 quarto render
-
-# Output goes to ./docs/
 ```
 
-For detailed `_quarto.yml` reference, see [_quarto-yml-reference.md](_quarto-yml-reference.md).
+## 構成
 
-## Contributing
+- [index.qmd](index.qmd) — LP（ランディングページ）
+- [reference.qmd](reference.qmd) — `_quarto.yml` 記法リファレンス
+- [notation.qmd](notation.qmd) — Q markdown 記法リファレンス
+- [content1-5.qmd](content1.qmd) — テンプレート集・実例
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) first.
+## 公開
 
-## License
+GitHub Actions が `quarto render` を実行し、`_site/` を GitHub Pages へ自動デプロイします。
 
-MIT License — see the [LICENSE](LICENSE) file for details.
+## ライセンス
 
-## Contact
-
-GitHub: [https://github.com/watanabe3tipapa/quarto-pe](https://github.com/watanabe3tipapa/quarto-pe)
+MIT — 詳細は [LICENSE](LICENSE) を参照。

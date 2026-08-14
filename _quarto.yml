@@ -1,62 +1,80 @@
 project:
   type: website
-  output-dir: docs
+  output-dir: _site
   render:
     - "*.qmd"
     - "!drafts/"
+  resources:
+    - assets/
 
 website:
   title: "quarto-pe"
+  description: "Quarto の _quarto.yml 記法と Q markdown 構文のリファレンス・チートシート"
+  site-url: "https://watanabe3tipapa.github.io/quarto-pe/"
+  image: assets/quarto_check.jpg
+  favicon: assets/quarto_check.jpg
+  open-graph: true
+  page-navigation: true
   navbar:
     aria-label: Main navigation
-    background: dark
     search: true
     left:
       - href: index.qmd
         text: Home
-      - text: Contents（qmd）
+      - text: リファレンス
         menu:
-          - href: content1.html
-            text: Content1
-          - href: content2.html
-            text: Content2
-          - href: content3.html
-            text: Content3
-          - href: content4.html
-            text: Content4
-          - href: content5.html
-            text: Content5  
-      - href: notation.qmd 
-        text: Notation
+          - href: reference.qmd
+            text: "_quarto.yml 記法"
+          - href: notation.qmd
+            text: "Q markdown 記法"
+      - text: テンプレート集
+        menu:
+          - href: content3.qmd
+            text: 設定テンプレート
+          - href: content4.qmd
+            text: コード実行・動的コンテンツ
+          - href: content5.qmd
+            text: 構造化・多形式
+      - text: 事例
+        menu:
+          - href: content1.qmd
+            text: 本サイトの設定
+          - href: content2.qmd
+            text: 実在サイトのYAML
     right:
       - href: "https://github.com/watanabe3tipapa/quarto-pe"
-        text: Github
+        text: GitHub
         icon: github
-      - href: signin.html
-        text: Sign in
+  page-footer:
+    left: "© 2026 watanabe3tipapa"
+    center: "Built with [Quarto](https://quarto.org/) — Neo-brutalism"
+  repo-url: "https://github.com/watanabe3tipapa/quarto-pe"
+  repo-actions: [edit]
 
 format:
   html:
-    theme: spacelab
+    theme:
+      - cosmo
+      - theme.scss
     css: styles.css
     toc: true
+    toc-depth: 3
     code-fold: true
     code-tools: true
-  pdf:
-    documentclass: article
-    margin-left: 30mm
-    margin-right: 30mm
+    highlight-style: github
 
 execute:
   echo: true
   warning: false
   error: false
-  cache: true
+  freeze: false
 
-freeze: false
+vars:
+  author: "watanabe3tipapa"
+  email: "toruwatanabe3ti@gmail.com"
+  org: "quarto-pe"
+  year: 2026
 
-resources:
-  - CNAME
-  - .nojekyll
+lang: ja
 
 editor: visual

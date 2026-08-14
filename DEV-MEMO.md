@@ -121,3 +121,58 @@ qmdの利点（実行可能コードチャンク、動的コンテンツ、パ�
 - OGP画像の作成と設定
 - サイト内検索の強化
 - 多言語ページ（英語版 qmd）の追加
+
+---
+
+# 【追録】v2 再構築プラン（2026-08-14）
+
+## 背景
+
+「Quarto `_quarto.yml` 記法 + Q markdown 構文のチートシート/リファレンス」という本来の目的に対して、以下が乖離していた。
+
+| # | 問題 |
+|---|------|
+| 1 | 最重要コンテンツ `_quarto-yml-reference.md`(679行) が `render: "*.qmd"` 対象外でサイトに未反映 |
+| 2 | `notation.qmd` の「Q markdown Notation」セクションが事実上空 |
+| 3 | CNAME/.nojekyll が存在しないのに README/DEV-MEMO が「設定済み」と主張（`resources:` の配置ミス） |
+| 4 | ビルド成果物・R中間ファイルが大量にコミット（`docs/` 41, `notation_cache/` 26 等） |
+| 5 | front matter のコピペ重複・typo（`lang: jp` 等）・CSS 2系統の不統一 |
+| 6 | リファレンス内に実在しないキー/コマンド（`defaults`・`output-extensions`・`quarto check project`・`quarto config`） |
+| 7 | index.qmd がほぼ空のプレースホルダ |
+| 8 | CI が重い（tidyverse/ggplot2 フルインストール + TinyTeX） |
+
+## 決定事項（依頼者確認済み）
+
+| 項目 | 決定 |
+|------|------|
+| スコープ | A(コア価値) + B(正確性) + C(衛生/CI) |
+| docs 公開 | GitHub Actions のみ（`output-dir: _site`、`docs/` は gitignore） |
+| PDF | 実ページから除去（テンプレート文書のみ）。CI の TinyTeX も除去 |
+| カスタムドメイン | 不使用（CNAME 作成しない。README の主張も削除） |
+| デザイン | Neo-brutalism（`watanabe3tipapa.github.io/html/styles.scss` の v2 トークンを踏襲） |
+| リファレンス | 単一ページ + 深いTOC（`toc-depth: 3`） |
+| LP コンテンツ一覧 | 方式B（手書きカード、`.grid` + `.g-col-*`） |
+| 言語 | 日本語メイン。README は単純化、英語は `README_EN.md` サブ |
+
+## 実施内容
+
+1. `_quarto.yml` 全面書き換え
+   - `output-dir: _site` / `format.html` のみ（`theme: [cosmo, theme.scss]`, `css: styles.css`）
+   - `format.pdf`・`execute.cache` 削除 / `freeze` は `execute.freeze` / `resources` を `project:` 配下へ
+   - `website` 強化: `site-url` / `open-graph` / `page-navigation` / `repo-url` + `repo-actions`
+2. `theme.scss` 新規作成（Neo-brutalism）
+3. `styles.css` 書換え（方眼紙廃止、LP用コンポーネント）+ `custom-styles.css` 削除
+4. `index.qmd` → LP 新規作成（ヒーロー / 読む順序 / 手書きカード / クイックスタート）
+5. `_quarto-yml-reference.md` → `reference.qmd` 全面再編（13セクション、実在キーのみ）
+6. `notation.qmd` の Q markdown 記法を実サンプル付きで拡充
+7. `content1-5.qmd` front matter 修正（description 日本語化 / `lang: ja` / CSS 重複除去 / `format.pdf` 除去）
+8. `README.md` 単純化（日本語）+ `README_EN.md` 新設
+9. `.gitignore` 拡充 + `git rm --cached`（`docs/` `notation_cache/` `notation_files/` `.Rproj.user/` `.Rhistory` 等）
+10. CI 書き換え（knitr のみ / TinyTeX 削除 / アップロード先 `./_site`）
+11. `CHANGELOG.md` 更新
+
+## 検証
+
+- `quarto render` で全ページ生成（HTML のみ・TinyTeX 不要）
+- navbar / リンク整合 / search.json 生成確認
+- push → Actions で Pages デプロイ確認

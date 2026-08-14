@@ -1,39 +1,185 @@
-/* css styles */
+/* ============================================================
+   quarto-pe — LP 用カスタムスタイル (Neo-brutalism)
+   サイト全体の Neo-brutalism テーマは theme.scss が担当。
+   ここでは LP (index.qmd) 固有のコンポーネントを定義する。
+   ============================================================ */
 
-/* モダンなデザインのスタイルを追加 */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
-    background-image: 
-        linear-gradient(to right, #ccc 1px, transparent 1px), /* 縦線 */
-        linear-gradient(to bottom, #ccc 1px, transparent 1px); /* 横線 */
-    background-size: 20px 20px; /* 方眼のサイズを調整 */
-    color: #333;
+/* Hero */
+.hero {
+  border: 4px solid #333333;
+  background-color: #ffe14d;
+  padding: 2.5rem 2rem;
+  box-shadow: 10px 10px 0 #333333;
+  margin-bottom: 2.5rem;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.hero h1.hero-title {
+  font-size: 3rem;
+  border: none;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0 0 0.5rem;
+  display: block;
+  text-transform: none;
+  letter-spacing: 0.02em;
 }
 
-.header {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
+.hero .hero-tagline {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 1.5rem;
 }
 
-.button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
+/* CTA buttons */
+.cta {
+  display: inline-block;
+  border: 4px solid #333333;
+  background-color: #ffffff;
+  color: #333333;
+  font-weight: 900;
+  padding: 0.7rem 1.4rem;
+  text-decoration: none;
+  box-shadow: 5px 5px 0 #333333;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
-.button:hover {
-    background-color: #218838;
+.cta:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 0 0 0 4px #333333;
+  color: #333333;
+}
+
+.cta-primary {
+  background-color: #ff2d75;
+  color: #ffffff;
+}
+
+.cta-primary:hover {
+  color: #ffffff;
+}
+
+/* Content cards (LP) */
+.content-card {
+  border: 4px solid #333333;
+  background-color: #ffffff;
+  box-shadow: 8px 8px 0 #333333;
+  padding: 1.4rem;
+  height: 100%;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.content-card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 0 0 0 4px #333333;
+}
+
+.content-card .card-label {
+  display: inline-block;
+  background-color: #333333;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.content-card h3 {
+  border-bottom: none;
+  padding-bottom: 0;
+  font-size: 1.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.content-card h3 a {
+  border-bottom: none;
+}
+
+.content-card p {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 0;
+}
+
+/* Badges */
+.badge-nb {
+  display: inline-block;
+  border: 3px solid #333333;
+  background-color: #ffffff;
+  color: #333333;
+  font-weight: 900;
+  padding: 0.3rem 0.8rem;
+  margin: 0 0.4rem 0.4rem 0;
+  box-shadow: 4px 4px 0 #333333;
+  font-size: 0.8rem;
+}
+
+.badge-nb-yellow { background-color: #ffe14d; }
+.badge-nb-blue   { background-color: #7ec8e3; }
+.badge-nb-lime   { background-color: #9ef01a; }
+.badge-nb-pink   { background-color: #ff2d75; color: #ffffff; }
+
+/* Feature list */
+.feature-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.feature-list li {
+  border: 3px solid #333333;
+  background-color: #ffffff;
+  box-shadow: 5px 5px 0 #333333;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+/* Landing: suppress default heading boxes for hero section */
+.no-brutal-box h2 {
+  border: none;
+  background: none;
+  box-shadow: none;
+  display: block;
+  padding: 0;
+  margin: 2.5rem 0 1rem;
+}
+
+/* Steps (reading guide) */
+.step-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.step-flow .step {
+  border: 4px solid #333333;
+  background-color: #ffffff;
+  box-shadow: 8px 8px 0 #333333;
+  padding: 1.2rem;
+}
+
+.step-flow .step .step-num {
+  display: inline-block;
+  background-color: #ff2d75;
+  color: #ffffff;
+  font-weight: 900;
+  padding: 0.2rem 0.7rem;
+  margin-bottom: 0.6rem;
+}
+
+.step-flow .step h3 {
+  border-bottom: none;
+  padding-bottom: 0;
+  font-size: 1.1rem;
+}
+
+.step-flow .step p {
+  font-size: 0.85rem;
+  font-weight: 700;
 }

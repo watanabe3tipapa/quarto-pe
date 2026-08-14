@@ -1,13 +1,11 @@
 ---
 title: "Content2"
-subtitle: "An Example of Best Practices"
+subtitle: "実在サイトの YAML 事例"
 author: "watanabe3tipapa"
 date: last-modified
 description: |
-  This is the main page of my Quarto project, 
-  demonstrating best practices in YAML configuration.
-  Content2
-lang: jp
+  実在サイト（watanabe3tipapa.github.io / next.watanabe3ti.com）で使われている _quarto.yml の事例を解説します。
+lang: ja
 toc: true
 number-sections: true
 highlight-style: github
@@ -15,12 +13,6 @@ code-fold: show
 execute:
   echo: false
   warning: false
-format:
-  html:
-    css: styles.css
-  pdf:
-    documentclass: article
-    papersize: a4
 ---
 
 # My Quarto Project

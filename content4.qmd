@@ -4,7 +4,7 @@ subtitle: "qmd テンプレート集 — コード実行と動的コンテンツ
 author: "watanabe3tipapa"
 date: last-modified
 description: |
-  Quarto qmd ファイルのコード実行機能と動的コンテンツ生成のテンプレート集
+  Quarto qmd ファイルのコード実行機能（Rチャンク・パラメータ化・Observable JS・インラインコード）のテンプレート集。
 lang: ja
 toc: true
 number-sections: true
@@ -13,12 +13,6 @@ code-fold: show
 execute:
   echo: false
   warning: false
-format:
-  html:
-    css: custom-styles.css
-  pdf:
-    documentclass: article
-    papersize: a4
 params:
   n: 100
   mean: 50
@@ -40,7 +34,7 @@ params:
 
 ### テンプレート
 
-```qmd
+````qmd
 ---
 title: "基本統計レポート"
 format: html
@@ -50,8 +44,7 @@ execute:
 
 # データの要約
 
-{verbatim}
-```{r}
+```{{r}}
 #| echo: true
 #| fig-cap: "ヒストグラム"
 
@@ -68,9 +61,8 @@ hist(x, main = "ヒストグラム", col = "steelblue")
 
 ## 結果
 
-平均: `r mean_x`、標準偏差: `r sd_x`
-```
-```
+平均: <code>r mean_x</code>、標準偏差: <code>r sd_x</code>
+````
 
 ### 実行結果（このページでの出力）
 
@@ -94,7 +86,7 @@ hist(x, main = "ヒストグラム", col = "steelblue")
 
 ### テンプレート
 
-```qmd
+````qmd
 ---
 title: "パラメータ化レポート"
 format: html
@@ -115,13 +107,12 @@ execute:
 - 平均: `r params$mean`
 - 標準偏差: `r params$sd`
 
-{verbatim}
-```{r}
+```{{r}}
 #| echo: true
 data <- rnorm(params$n, mean = params$mean, sd = params$sd)
 hist(data, main = params$title, col = "tomato")
 ```
-```
+````
 
 異なるパラメータでレンダリングするには：
 
@@ -147,14 +138,13 @@ Quarto は R/Python に加えて **Observable JS** (`ojs`) をネイティブサ
 
 ### テンプレート
 
-```qmd
+````qmd
 ---
 title: "Observable JS デモ"
 format: html
 ---
 
-{verbatim}
-```{ojs}
+```{{ojs}}
 // スライダーでサンプルサイズを変更
 viewof n = Inputs.range([10, 500], {value: 100, label: "サンプルサイズ", step: 10})
 
@@ -173,7 +163,7 @@ data = Array.from({length: n}, () => Math.random() * 100)
   })
 }
 ```
-```
+````
 
 ```{ojs}
 //| echo: true
@@ -201,23 +191,22 @@ Plot.plot({
 
 ### テンプレート
 
-```qmd
+````qmd
 ---
 title: "インラインコード活用"
 format: html
 ---
 
-{verbatim}
-```{r}
+```{{r}}
 #| include: false
 total <- 1000
 passed <- 850
 rate <- passed / total * 100
 ```
 
-本日のテストは **`r total` 問中 `r passed` 問** 合格でした。
-合格率は **`r round(rate, 1)`%** です。
-```
+本日のテストは **<code>r total</code> 問中 <code>r passed</code> 問** 合格でした。
+合格率は **<code>r round(rate, 1)</code>%** です。
+````
 
 ### 実行結果
 
@@ -232,7 +221,7 @@ rate <- passed / total * 100
 
 ### YAML 変数との組み合わせ
 
-`_quarto.yml` で定義した変数は `{{< var name >}}` で参照できます。
+`_quarto.yml` で定義した変数は `{{{< var name >}}}` で参照できます。
 
 ```yaml
 # _quarto.yml
@@ -242,7 +231,7 @@ vars:
 ```
 
 ```qmd
-著者: {{< var author >}}（{{< var year >}}）
+著者: {{{< var author >}}}（{{{< var year >}}}）
 ```
 
 ---
@@ -251,14 +240,13 @@ vars:
 
 チャンクオプションを使い分けることで、出力の見た目や動作を細かく制御できます。
 
-```qmd
+````qmd
 ---
 title: "チャンクオプション見本帳"
 format: html
 ---
 
-{verbatim}
-```{r}
+```{{r}}
 #| echo: true          # コードを表示（デフォルト）
 #| eval: true          # コードを実行（デフォルト）
 #| include: true       # 出力を含める（デフォルト）
@@ -270,7 +258,7 @@ format: html
 #| cache: true         # 結果をキャッシュ
 plot(1:10)
 ```
-```
+````
 
 ### オプション一覧
 

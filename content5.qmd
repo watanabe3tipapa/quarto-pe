@@ -4,7 +4,7 @@ subtitle: "qmd テンプレート集 — 構造化と多形式連携"
 author: "watanabe3tipapa"
 date: last-modified
 description: |
-  Quarto qmd ファイルの相互参照・マルチフォーマット・Div/Callouts・文献管理テンプレート集
+  Quarto qmd ファイルの相互参照・マルチフォーマット・Div/Callouts・文献管理・Front Matter 上書きのテンプレート集。
 lang: ja
 toc: true
 number-sections: true
@@ -13,12 +13,6 @@ code-fold: show
 execute:
   echo: false
   warning: false
-format:
-  html:
-    css: custom-styles.css
-  pdf:
-    documentclass: article
-    papersize: a4
 ---
 
 # qmd テンプレート集 — 構造化と多形式連携
@@ -35,7 +29,7 @@ Quarto では図・表・数式・節に自動でIDを振り、相互参照で�
 
 ### テンプレート
 
-```qmd
+````qmd
 ---
 title: "相互参照デモ"
 format: html
@@ -47,18 +41,12 @@ number-sections: true
 @fig-plot に実験結果を示します。
 平均値は @tbl-stats の通りです。
 
-{verbatim}
-```{r}
+```{{r}}
 #| label: fig-plot
 #| fig-cap: "実験結果の分布"
 x <- rnorm(50)
 hist(x, main = "実験結果")
 ```
-
-| 統計量 | 値 |
-|--------|-----|
-| 平均   | `r mean(x)` |
-| 標準偏差 | `r sd(x)` |
 
 : 基本統計量 {#tbl-stats}
 
@@ -67,8 +55,7 @@ hist(x, main = "実験結果")
 ## 分析 {#sec-analysis}
 
 ここに分析内容を記述します。
-```
-```
+````
 
 ### 実行結果
 
@@ -110,7 +97,7 @@ hist(x, main = "正規分布 N(0,1)", col = "steelblue", breaks = 15)
 
 ### テンプレート
 
-```qmd
+````qmd
 ---
 title: "マルチフォーマットレポート"
 format:
@@ -134,14 +121,13 @@ execute:
 
 このファイルは HTML・PDF・DOCX の3形式で出力されます。
 
-{verbatim}
-```{r}
+```{{r}}
 #| fig-cap: "散布図"
 plot(mtcars$wt, mtcars$mpg,
      xlab = "Weight", ylab = "MPG",
      col = "steelblue", pch = 19)
 ```
-```
+````
 
 ### 形式ごとの条件分岐
 
@@ -203,7 +189,7 @@ Callout は `:::` で囲み、`{.callout-種類}` で種類を指定します。
 
 ::: {.callout-warning}
 ## 注意
-コードブロック内で `{verbatim}` を使うと、Quarto の構文をそのまま表示できます。
+コードブロック内で二重波括弧（<code>{{r}}</code>）を使うと、Quarto の構文を実行せずに表示できます。
 :::
 
 ::: {.callout-important}
@@ -331,20 +317,20 @@ link-citations: true
 | 目次制御 | `toc: true` | `toc: false` |
 | コード表示 | `code-fold: true` | `code-fold: show`（初期表示） |
 | 実行制御 | `echo: true` | `echo: false / eval: false` |
-| 個別CSS | （なし） | `css: custom-styles.css` |
+| 個別CSS | `css: styles.css` | `css: 別ファイル.css` |
 | 言語切替 | `lang: ja` | `lang: en` |
 | PDF専用設定 | `documentclass: article` | `documentclass: report` |
 
 ### 実例：テーマ上書き
 
-このページ（content5）では `custom-styles.css` を適用しています。`_quarto.yml` で `styles.css` がデフォルト指定されていますが、front matter で上書きしています。
+`_quarto.yml` の `theme: [cosmo, theme.scss]` を、front matter で個別に上書きできます。
 
 ```yaml
 ---
 # content5.qmd の front matter
 format:
   html:
-    css: custom-styles.css   # styles.css を上書き
+    theme: spacelab   # _quarto.yml の theme を上書き
   pdf:
     documentclass: article
     papersize: a4

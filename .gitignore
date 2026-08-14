@@ -2,6 +2,11 @@
 /.quarto/
 *.user
 
+# Quarto output
+_site/
+docs/
+tmp/
+
 # Quarto temporary files
 *.log
 *.tex
@@ -10,10 +15,17 @@
 *.out
 *.toc
 
+# Quarto / knitr caches & figure files
+_freeze/
+*_cache/
+*_files/
+*.quarto_ipynb
+
 # R specific
 .Rhistory
 .RData
 .Ruserdata
+.Rproj.user/
 
 # Editor files
 .vscode/
@@ -24,5 +36,5 @@
 # OS generated files
 Thumbs.db
 
-**/*.quarto_ipynb
+# Local overrides
 _quarto.local.yml

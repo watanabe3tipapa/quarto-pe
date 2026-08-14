@@ -4,7 +4,7 @@ subtitle: "_quarto.yml テンプレート集"
 author: "watanabe3tipapa"
 date: last-modified
 description: |
-  Quarto の _quarto.yml 設定テンプレート集
+  Quarto の _quarto.yml 設定テンプレート集（プロジェクト設定 / 出力形式 / サイト / ブログ / 書籍など）。
 lang: ja
 toc: true
 number-sections: true
@@ -13,12 +13,6 @@ code-fold: show
 execute:
   echo: false
   warning: false
-format:
-  html:
-    css: styles.css
-  pdf:
-    documentclass: article
-    papersize: a4
 ---
 
 # _quarto.yml テンプレート集
@@ -240,8 +234,8 @@ vars:
 ```qmd
 ---
 # .qmd 内
-著者: {{< var author >}}
-メール: {{< var email >}}
+著者: {{{< var author >}}}
+メール: {{{< var email >}}}
 ```
 
 ---
