@@ -112,7 +112,7 @@ Quarto は R・Python・Julia などでドキュメント・レポート・プ�
 ::: {.content-card}
 <span class="card-label">テンプレート集</span>
 ### [設定テンプレート](content3.html)
-HTML / PDF / Word / Reveal.js / ブログ / 書籍など、`_quarto.yml` の16種のテンプレート。
+HTML / PDF / Word / Reveal.js / ブログ / 書籍など、`_quarto.yml` の15セクションのテンプレート。
 :::
 :::
 

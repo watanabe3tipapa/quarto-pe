@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Inline-code examples use `<code>` tags so knitr does not evaluate them inside fenced blocks
 - Variable shortcodes escaped with triple braces (`{{{< var >}}}`) to avoid `Unknown var` warnings
 - Removed `format.pdf` from `signin.qmd` / `content1.qmd` (PDF no longer rendered)
+- README restructured to match the quarto-plus README style (badges, concept, features, contents, etc.), version v0.4.0
 
 ### Removed
 
