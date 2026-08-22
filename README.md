@@ -1,128 +1,106 @@
 # quarto-pe
 
-**Quarto, 体系化。**
+**Quarto、体系化。**
 
-quarto-pe は、Quarto の設定ファイル **`_quarto.yml` 記法** と本文の **Q markdown 構文** を、ひとつの場所にまとめたチートシート兼リファレンスサイトです。公式仕様に基づく実在キーだけを体系的に解説し、コピペで使えるテンプレート集・実動サンプル・実サイトの事例を同梱します。
+[サイトを見る](https://watanabe3tipapa.github.io/quarto-pe/)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v0.4.0-blue.svg)](https://github.com/watanabe3tipapa/quarto-pe/releases)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-live-blue.svg)](https://watanabe3tipapa.github.io/quarto-pe/)
-[![GitHub](https://img.shields.io/github/issues/watanabe3tipapa/quarto-pe.svg)](https://github.com/watanabe3tipapa/quarto-pe/issues)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Version](https://img.shields.io/badge/version-v0.4.0-blue.svg)](https://github.com/watanabe3tipapa/quarto-pe/releases) [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-live-blue.svg)](https://watanabe3tipapa.github.io/quarto-pe/) [![GitHub](https://img.shields.io/github/issues/watanabe3tipapa/quarto-pe.svg)](https://github.com/watanabe3tipapa/quarto-pe/issues)
 
 [日本語](README.md) | [English](README_EN.md)
 
-## コンセプト
+概要
 
-### なぜ「pe」なのか
+quarto-pe は Quarto の設定ファイル（`_quarto.yml`）に使われるキー表記と、本文で使う Q markdown 記法を1か所にまとめたチートシート兼リファレンスサイトです。公式仕様に基づく実在キーのみを体系化して解説し、コピペで使えるテンプレートや実動サンプル、実サイト事例を同梱します。
 
-Quarto は高機能な一方、`_quarto.yml` のキーは `project` / `format` / `website` / `book` / `execute` などに散在し、ネット上の情報には実在しない記法や誤ったコマンドも混ざっています。
+コンセプト
 
-quarto-pe はそれらの情報を「**個人備忘録（Personal Edition）として精査**」し、公式仕様に基づく実在キー・実コマンドだけを体系的にまとめます。検索のたびに不確かな情報を渡り歩く代わりに、1つの場所で正確な答えにたどり着けます。
+- 個人備忘録（Personal Edition）として、ネット上に散在する不確かな記法や誤情報を排し、公式仕様に基づく実在キー・実コマンドだけを掲載します。
+- 手元の Quarto（README 記載の検証環境として Quarto 1.3+ を参照）で動作確認した実在キーを優先して体系化しています。
 
-| 営み | quarto-pe の対応物 |
-|---|---|
-| 設定キーを調べる | [_quarto.yml 記法リファレンス](https://watanabe3tipapa.github.io/quarto-pe/reference.html) が `project` / `format` / `website` / `book` / `execute` / `vars` を体系化 |
-| 本文の書き方を学ぶ | [Q markdown 記法](https://watanabe3tipapa.github.io/quarto-pe/notation.html) が見出し・Div・Callout・相互参照・数式・変数を実サンプル付きで解説 |
-| 最初の設定を用意する | [設定テンプレート](https://watanabe3tipapa.github.io/quarto-pe/content3.html) から好みの構成をコピペ |
-| 動的コンテンツを試す | [コード実行・動的コンテンツ](https://watanabe3tipapa.github.io/quarto-pe/content4.html) で R チャンク・パラメータ・Observable JS を実動体験 |
-| 構造化・多形式を仕上げる | [構造化・多形式](https://watanabe3tipapa.github.io/quarto-pe/content5.html) で相互参照・Callout・レイアウト・文献管理を適用 |
-| 実運用の勘所を知る | [実サイトのYAML](https://watanabe3tipapa.github.io/quarto-pe/content2.html) と [本サイトの設定](https://watanabe3tipapa.github.io/quarto-pe/content1.html) で確認 |
-| 公開する | GitHub Actions による GitHub Pages への自動デプロイ |
+主な特徴
 
-### リファレンスは「正確さ」が命
+- 体系化されたリファレンス: `_quarto.yml` のキーを `project` / `format` / `website` / `book` / `execute` / `vars` 等に分類して解説
+- Q markdown 記法: 見出し、Div、Callout、相互参照、数式、変数、shortcode をサンプル付きで解説
+- 実動サンプル: R チャンク、インラインコード、Observable JS 等の実動例を収録
+- テンプレート集: プロジェクト設定・出力形式・サイト・ブログ・書籍などの雛形（約15セクション）
+- 実例: 本サイト自身や実在サイトの YAML を分解して解説
+- CI 自動公開: GitHub Actions による `quarto render` と GitHub Pages への自動デプロイ（README 内の記述に基づく）
+- 正確性重視: 実在しない旧記法・誤記を修正し、実在キーのみを掲載
 
-本サイトは **実在するキー・コマンドだけ** を扱います。初版に含まれていた実在しない記法（`defaults` キー、`output-extensions`、`quarto check project`、`lang: jp` など）は全面修正済みです。キーが実際に動作することを手元の Quarto 1.3+ で検証した上で掲載しています。
-
-- **体系化** — 実在キーをカテゴリ別に整理（旧版の誤記は全廃）
-- **実動サンプル** — コードチャンク・Observable JS・相互参照がその場で動く
-- **コピペで即利用** — テンプレート集から自分のプロジェクトに貼るだけ
-
-## 特徴
-
-- **体系化されたリファレンス**: `_quarto.yml` の全キーを `project` / `format` / `website` / `book` / `execute` / `vars` に分類して解説
-- **Q markdown 記法**: 見出し・Div・Callout・相互参照・数式・変数・shortcode を実サンプル付きで解説
-- **実動サンプル**: R コードチャンク・インラインコード・Observable JS をその場で実行
-- **テンプレート集**: プロジェクト設定 / 出力形式 / サイト / ブログ / 書籍など 15 セクションの設定雛形
-- **実例**: 本サイト自身の設定と実在サイトの YAML を解体して解説
-- **正確性**: 公式仕様に基づく実在キーのみ掲載（旧版の誤記を全面修正）
-- **CI 自動公開**: GitHub Actions が `quarto render` を実行し、`_site/` を GitHub Pages へ自動デプロイ
-
-## インストール
-
-### 前提条件
+前提条件（事実ベース）
 
 | ツール | 必要バージョン | 確認コマンド |
-|---|---|---|
-| [Quarto](https://quarto.org/docs/get-started/) | >= 1.3 | `quarto --version` |
-| R | 任意（R チャンクを実行する場合のみ） | `R --version` |
+|---|---:|---|
+| Quarto | >= 1.3 | `quarto --version` |
+| R | 任意（R チャンクの実行時） | `R --version` |
 | Git | 任意（デプロイ・貢献時） | `git --version` |
 
-macOS では `brew install quarto` で Quarto を揃えられます。R は https://cran.r-project.org からインストールしてください。
+macOS では `brew install quarto` で Quarto を入手できる旨が README に記載されています。R は CRAN（https://cran.r-project.org）から入手してください。
 
-### 1. リポジトリを取得する
+開始方法（README に記載されている手順のみ）
+
+1. リポジトリを取得
 
 ```bash
 git clone https://github.com/watanabe3tipapa/quarto-pe.git
 cd quarto-pe
 ```
 
-### 2. プレビューする
+2. プレビュー
 
 ```bash
 quarto preview
 ```
 
-### 3. レンダリングする
+3. レンダリング
 
 ```bash
 quarto render
 ```
 
-`_site/` に出力されます。単一ファイルだけのレンダリングは `quarto render reference.qmd` のように指定できます。
+- レンダリング結果は `_site/` に出力されます。単一ファイルのレンダリングは `quarto render reference.qmd` のようにファイル名を指定して実行できます（README の記述に基づく）。
+- main ブランチへの push による自動ビルド・デプロイは README にて言及されています。
 
-### 4. 公開する
+リポジトリの主な内容（README に記載のファイル）
 
-`main` への push で GitHub Actions が自動でビルド・デプロイします。
+- index.qmd — ランディングページ
+- reference.qmd — `_quarto.yml` 記法リファレンス
+- notation.qmd — Q markdown 記法リファレンス
+- content1.qmd — 本サイトの設定解説（事例）
+- content2.qmd — 実在サイトの YAML 事例
+- content3.qmd — `_quarto.yml` テンプレート集
+- content4.qmd — コード実行・動的コンテンツのテンプレート
+- content5.qmd — 構造化・多形式のテンプレート
 
-## コンテンツ
+関連ドキュメント
 
-| ページ | 内容 |
-|---|---|
-| [index.qmd](index.qmd) | LP（ランディングページ） |
-| [reference.qmd](reference.qmd) | `_quarto.yml` 記法リファレンス |
-| [notation.qmd](notation.qmd) | Q markdown 記法リファレンス |
-| [content1.qmd](content1.qmd) | 本サイトの設定解説（事例） |
-| [content2.qmd](content2.qmd) | 実在サイトの YAML 事例 |
-| [content3.qmd](content3.qmd) | `_quarto.yml` テンプレート集 |
-| [content4.qmd](content4.qmd) | コード実行・動的コンテンツのテンプレート |
-| [content5.qmd](content5.qmd) | 構造化・多形式のテンプレート |
+- リファレンス: https://watanabe3tipapa.github.io/quarto-pe/reference.html
+- Q markdown 記法: https://watanabe3tipapa.github.io/quarto-pe/notation.html
+- テンプレート集: https://watanabe3tipapa.github.io/quarto-pe/content3.html
+- 開発メモ: DEV-MEMO.md
+- 変更履歴: CHANGELOG.md
 
-初心者の方は [リファレンス](https://watanabe3tipapa.github.io/quarto-pe/reference.html) で基本構造を押さえ、[テンプレート集](https://watanabe3tipapa.github.io/quarto-pe/content3.html) から始めるのがおすすめです。
+コントリビューション
 
-## ドキュメント
-
-- [_quarto.yml 記法リファレンス](https://watanabe3tipapa.github.io/quarto-pe/reference.html) — プロジェクト設定の全キー
-- [Q markdown 記法](https://watanabe3tipapa.github.io/quarto-pe/notation.html) — 本文の書き方
-- [テンプレート集](https://watanabe3tipapa.github.io/quarto-pe/content3.html) — 実用雛形
-
-開発メモは [DEV-MEMO](DEV-MEMO.md)、変更履歴は [CHANGELOG](CHANGELOG.md) を参照してください。
-
-## コントリビューション
-
-コントリビューションは大歓迎です。本サイトは「実在キーのみ・正確に」を方針としています。誤りや不正確な記述を見つけた場合は、まず [issue](https://github.com/watanabe3tipapa/quarto-pe/issues) を開いて内容を共有してください。
+貢献歓迎。README に記載の手順をベースにしています。
 
 1. リポジトリをフォーク
-2. 機能ブランチを作成 (`git checkout -b fix/typo-in-reference`)
-3. 変更をコミット (`git commit -m 'Fix typo in reference'`)
-4. ブランチにプッシュ (`git push origin fix/typo-in-reference`)
+2. 機能ブランチを作成（例: `git checkout -b fix/typo-in-reference`）
+3. 変更をコミット（例: `git commit -m 'Fix typo in reference'`）
+4. ブランチにプッシュ（`git push origin fix/typo-in-reference`）
 5. Pull Request を作成
 
-## 連絡先
+誤りや不正確な記述を見つけた場合は、まず issue を開いて内容を共有してください: https://github.com/watanabe3tipapa/quarto-pe/issues
 
-GitHub: [https://github.com/watanabe3tipapa/quarto-pe](https://github.com/watanabe3tipapa/quarto-pe)
+連絡先
 
-公開サイト: [https://watanabe3tipapa.github.io/quarto-pe/](https://watanabe3tipapa.github.io/quarto-pe/)
+- GitHub: https://github.com/watanabe3tipapa/quarto-pe
+- 公開サイト: https://watanabe3tipapa.github.io/quarto-pe/
 
-## ライセンス
+ライセンス
 
-MITライセンス — 詳細は [LICENSE](LICENSE) ファイルを参照してください。
+本リポジトリは MIT ライセンスです。詳細は LICENSE ファイルを参照してください。
+
+開発・保守状態（README に基づく記述）
+
+- README によれば GitHub Actions による自動デプロイが設定されており、公開サイトが稼働しています。リポジトリはアーカイブされていません（archived: false）。
